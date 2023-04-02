@@ -1,44 +1,31 @@
-<!--
- Basic example
--->
+<!DOCTYPE html>
 <html>
-  <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <script src="https://aframe.io/releases/1.4.1/aframe.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/stats.js/16/Stats.min.js"></script>
-    <script src="./dist/mindar-image-aframe.prod.js" type="module"></script>
-   
-    <style>
-      body {
-        margin: 0;
-      }
-      .example-container {
-        overflow: hidden;
-        position: absolute;
-        width: 100%;
-        height: 100%;
-      }
-    </style>
-  </head>
+    <head>
 
-  <body>
-    <div class="example-container">
-      <a-scene mindar-image="imageTargetSrc: ./assets/card-example/card.mind; showStats: true;" embedded color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
-        <a-assets>
-          <img id="card" src="./assets/card-example/card.png" />
-          <a-asset-item id="avatarModel" src="./assets/card-example/softmind/scene.gltf"></a-asset-item>
-        </a-assets>
-
-        <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
-
-        <a-entity mindar-image-target="targetIndex: 0">
-          <a-plane src="#card" position="0 0 0" height="0.552" width="1" rotation="0 0 0"></a-plane>
-
-          <a-gltf-model rotation="0 0 0 " position="0 0 0.1" scale="0.005 0.005 0.005" src="#avatarModel"
-            animation="property: position; to: 0 0.1 0.1; dur: 1000; easing: easeInOutQuad; loop: true; dir: alternate"
-          >
-        </a-entity>
-      </a-scene>
-    </div>
-  </body>
+    </head>
+    <body>
+        <h1>Examples</h1>
+        <h2>Image-Tracking</h2>
+        <ul>
+            <li><a href="examples/image-tracking/compile.html">compile</a> </li>
+            <li><a href="examples/image-tracking/debug.html">debug</a></li>
+            <li><a href="examples/image-tracking/example1.html">Example default</a></li>
+            <li><a href="examples/image-tracking/example1280.html">Example 1280</a></li>
+            <li><a href="examples/image-tracking/example1920.html">Example 1920</a></li>
+            <li><a href="examples/image-tracking/example2.html">Example 2</a></li>
+            <li><a href="examples/image-tracking/example3.html">Example 3</a></li>
+            <li><a href="examples/image-tracking/example4.html">Example 4</a></li>
+            <li><a href="examples/image-tracking/three.html">three</a></li>
+        </ul>
+        <h2>Face-Tracking</h2>
+        <ul>
+            <li><a href="examples/face-tracking/debug.html">debug</a></li>
+            <li><a href="examples/face-tracking/example1.html">Example 1</a></li>
+            <li><a href="examples/face-tracking/example2.html">Example 2</a></li>
+            <li><a href="examples/face-tracking/example3.html">Example 3</a></li>
+            <li><a href="examples/face-tracking/three-css.html">three-CSS</a></li>
+            <li><a href="examples/face-tracking/three-facemesh.html">three-FaceMesh</a></li>
+            <li><a href="examples/face-tracking/three.html">three</a></li>
+        </ul>
+    </body>
 </html>
