@@ -1,0 +1,162 @@
+<!--
+ Basic example
+-->
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="https://aframe.io/releases/1.4.1/aframe.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stats.js/16/Stats.min.js"></script>
+    <!-- <script src="../../src/image-target/aframe.js" type="module"></script> -->
+    <script src="../../../../../dist/mindar-image-aframe-1280.prod.js" type="module"></script>
+    <!-- <script src="https://raw.githack.com/fcor/arjs-gestures/master/dist/gestures.js"></script>  -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.1/howler.min.js"></script> <!-- Audio -->
+    <script src="https://unpkg.com/aframe-slice9-component/dist/aframe-slice9-component.min.js"></script> <!-- tooltip -->
+    <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@tagOrCommit/dist/aframe-extras.min.js"></script> <!-- animation-mixer -->
+
+    <script type='text/javascript' src='./src/aframe-gif-shader.js'></script>
+    <script type='text/javascript' src='./src/step-ctrl.js'></script>
+
+    <style>
+      body {
+        margin: 0;
+      }
+      .example-container {
+        overflow: hidden;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+  </head>
+
+  <body>
+
+    <div id="guidePanel" class="covering-panel">
+      <!-- <h5 style="color:white"></h5> -->
+      <h2 style="color:white;  text-shadow:
+        -1px -1px 0 #000,
+        1px -1px 0 #000,
+        -1px 1px 0 #000,
+        1px 1px 0 #000;">KB스타프렌즈를 찾아주세요</h2>
+      <h3></h3>
+      <img width="64%" height="auto" src="./assets/images/Prewrite_00.png" style="opacity : 0.7; pointer-events: none">
+    </div>
+    
+    <!-- <div class='experience'>
+        <div>서비스 체험중입니다</div>
+    </div> -->
+    
+    <div id='subtitleBtn'  class='subtitle'>
+        <div id="sub">미리 작성 서비스 - 입금 편</div>
+    </div>
+    
+    <div class="example-container">
+      <a-scene 
+        mindar-image="imageTargetSrc: ./assets/kbbank-example/kbbank.mind; showStats: true; filterMinCF: 0.0001; filterBeta: 0.001; warmupTolerance: 5; missTolerance: 5;" 
+        embedded color-space="sRGB" 
+        renderer="colorManagement: true, physicallyCorrectLights" 
+        vr-mode-ui="enabled: false" 
+        device-orientation-permission-ui="enabled: false"
+        gesture-detector
+      >
+      
+        <a-assets>
+          <img id="card" src="../assets/card-example/card.png" />
+          <a-asset-item id="avatarModel" src="../assets/card-example/softmind/scene.gltf"></a-asset-item>
+          <a-asset-item id="bibi" src="../assets/mystar/bibi.glb"></a-asset-item>
+          <a-asset-item id="foodtrailer" src="../assets/mystar/stylized_food_truck.glb"></a-asset-item>
+
+
+          <img id="clickGif" src="assets/images/click-hand-3d.gif">
+          <!-- <img id="typeName" src="assets/images/type-name.gif"> 
+          <img id="typeMoney" src="assets/images/type-money.gif">
+          <img id="typeAccount" src="assets/images/type-account.gif"> -->
+      
+          <img id="tooltipImg" src="assets/images/tooltip_ol35.png">
+      
+          <a-asset-item id="supporter_model" src="assets/models/ar_taewon.glb"></a-asset-item>  <!-- Models -->
+      
+          <img id="Prewrite_00" src="assets/images/Prewrite_00.png"> 
+          <img id="Prewrite_01" src="assets/images/Prewrite_01.png">
+          <img id="Prewrite_02" src="assets/images/Prewrite_02.png">
+          <img id="Prewrite_03" src="assets/images/Prewrite_03.png">
+          <img id="Prewrite_04" src="assets/images/Prewrite_04.png">
+          <img id="Prewrite_05" src="assets/images/Prewrite_05.png">
+          <img id="Prewrite_06" src="assets/images/Prewrite_06.png">
+        </a-assets>
+
+        <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
+
+        <a-entity light="type: ambient; intensity: 0.5;"></a-entity>
+        <a-entity light="type: directional; castShadow: true; intensity: 0.4; shadowCameraVisible: true;" position="-5 3 1.5"></a-entity>
+
+        <a-entity mindar-image-target="targetIndex: 0">
+          <a-entity
+            geometry="primitive: plane"
+            position="0 0 0" height="0.552" width="1" rotation="0 0 0" 
+            material="opacity: 0.5; transparent: true">
+            <!--  -->
+            <!-- htmltexture="asset: #bears" -->
+          </a-entity>
+      
+          <!-- <a-plane color="blue" opaciy="0.5" position="0 0 0" height="0.552" width="1" rotation="0 0 0" ></a-plane> -->
+          <!-- <a-plane src="#card" position="0 0 0" height="0.552" width="1" rotation="0 0 0"></a-plane> -->
+
+          <!-- <a-entity>
+            <a-gltf-model rotation="0 -90 0" position="0 -0.2 0.2" scale="5 5 5" src="#foodtrailer">
+          </a-entity>
+
+          <a-entity>
+            <a-gltf-model rotation="0 0 0" position="0 -0.2 0.2" scale="1 1 1" src="#bibi">
+          </a-entity> -->
+          
+          <!-- <a-gltf-model rotation="0 0 0 " position="0 0 0.1" scale="0.005 0.005 0.005" src="#avatarModel"
+          animation="property: position; to: 0 0.1 0.1; dur: 1000; easing: easeInOutQuad; loop: true; dir: alternate"
+          >
+            -->
+
+            <a-entity scale="1.05 1.05 1.05" >
+              <a-text id="caption" value="서비스 체험중" color="red" shader="msdf" scale=" 0.15 0.15 0.15" position="-0.095 0.45 0.001"
+              font="https://raw.githubusercontent.com/myso-kr/aframe-fonts-korean/master/fonts/ofl/nanumgothic/NanumGothic-Regular.json"
+              <!--  -->
+              <!-- align="center"  -->
+              <!-- position="0 -1 0"  -->
+              <!-- scale="0.5, 0.5, 0.5" -->
+              >
+              </a-text>
+        
+              <!-- <a-text position="0 1 1" color="red">서비스 체험중입니다</a-text> -->
+        
+              <a-image id='prewriteImg' src="#Prewrite_00" height="1.8" position="0 0 0" scale="0.53 0.53 0.53"></a-image>
+        
+              <a-entity id ='tooltipBox' class="cantap" scale="0.5 0.5 0.5" position="-0.105 0.018 0.002" slice9="color:red; width: 0.35; height: 0.4; left: 20; right: 43; top: 20; bottom: 43; src: #tooltipImg" ></a-entity>
+              <a-entity id='clickCursor' position="0.25 -0.445 0.004" geometry="primitive:plane;width:0.16;height:0.16;" material="shader:gif; src:#clickGif; alphaTest:0.5"></a-entity>
+              <a-entity id='replayBox' scale="0.5 0.5 0.5" position="0 -0.4 0.002" slice9="color:blue;  width: 0.95; height: 0.28; left: 20; right: 43; top: 20; bottom: 43; src: #tooltipImg" ></a-entity>
+            
+              <a-entity
+              step-ctrl
+              
+              id="supporter"
+              gltf-model="#supporter_model"
+              animation-mixer="clip: idle; loop: repeat; crossFadeDuration: 0.4"
+            
+              rotation="0 0 0"
+              position="0.25 -0.4 0"
+              scale=" 0 0 0" 
+              <!--  -->
+              <!-- animation="
+              property: gltf-morph__run.value;
+              from: 0;
+              to: 1;
+              loop: true;
+              dir: alternate;
+              easing: easeInOutQuad;" -->
+              >
+            </a-entity>
+           
+
+        </a-entity>
+      </a-scene>
+    </div>
+  </body>
+</html>
