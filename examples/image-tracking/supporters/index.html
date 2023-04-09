@@ -11,9 +11,9 @@
     <!-- <script src="https://raw.githack.com/fcor/arjs-gestures/master/dist/gestures.js"></script>  -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.1/howler.min.js"></script> <!-- Audio -->
     <script src="https://unpkg.com/aframe-slice9-component/dist/aframe-slice9-component.min.js"></script> <!-- tooltip -->
-    <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@tagOrCommit/dist/aframe-extras.min.js"></script> <!-- animation-mixer -->
+    <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras/dist/aframe-extras.min.js"></script> <!-- animation-mixer -->
 
-    <script type='text/javascript' src='./src/aframe-gif-shader.js'></script>
+    <script type='text/javascript' src='../../../src/libs/aframe-gif-shader.js'></script>
     <script type='text/javascript' src='./src/step-ctrl.js'></script>
 
     <style>
@@ -31,8 +31,7 @@
 
   <body>
 
-    <div id="guidePanel" class="covering-panel">
-      <!-- <h5 style="color:white"></h5> -->
+    <!-- <div id="guidePanel" class="covering-panel">
       <h2 style="color:white;  text-shadow:
         -1px -1px 0 #000,
         1px -1px 0 #000,
@@ -40,7 +39,7 @@
         1px 1px 0 #000;">KB스타프렌즈를 찾아주세요</h2>
       <h3></h3>
       <img width="64%" height="auto" src="./assets/images/Prewrite_00.png" style="opacity : 0.7; pointer-events: none">
-    </div>
+    </div> -->
     
     <!-- <div class='experience'>
         <div>서비스 체험중입니다</div>
@@ -52,7 +51,7 @@
     
     <div class="example-container">
       <a-scene 
-        mindar-image="imageTargetSrc: ./assets/kbbank-example/kbbank.mind; showStats: true; filterMinCF: 0.0001; filterBeta: 0.001; warmupTolerance: 5; missTolerance: 5;" 
+        mindar-image="imageTargetSrc: ../assets/kbbank-example/kbbank.mind; showStats: true; filterMinCF: 0.0001; filterBeta: 0.001; warmupTolerance: 5; missTolerance: 5;" 
         embedded color-space="sRGB" 
         renderer="colorManagement: true, physicallyCorrectLights" 
         vr-mode-ui="enabled: false" 
@@ -61,10 +60,10 @@
       >
       
         <a-assets>
-          <img id="card" src="../assets/card-example/card.png" />
-          <a-asset-item id="avatarModel" src="../assets/card-example/softmind/scene.gltf"></a-asset-item>
-          <a-asset-item id="bibi" src="../assets/mystar/bibi.glb"></a-asset-item>
-          <a-asset-item id="foodtrailer" src="../assets/mystar/stylized_food_truck.glb"></a-asset-item>
+          <!-- <img id="card" src="../assets/card-example/card.png" />
+          <a-asset-item id="avatarModel" src="../assets/card-example/softmind/scene.gltf"></a-asset-item> -->
+          <!-- <a-asset-item id="bibi" src="./assets/mystar/bibi.glb"></a-asset-item>
+          <a-asset-item id="foodtrailer" src="./assets/mystar/stylized_food_truck.glb"></a-asset-item> -->
 
 
           <img id="clickGif" src="assets/images/click-hand-3d.gif">

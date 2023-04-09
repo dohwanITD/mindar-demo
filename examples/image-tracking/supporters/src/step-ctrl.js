@@ -27,7 +27,7 @@ AFRAME.registerComponent('step-ctrl', {
     const guideDiv = document.getElementById('guidePanel')
 
     // XrScene
-    const xrScene = document.getElementById('xrScene')
+    // const xrScene = document.getElementById('xrScene')
     let isFirstFounded = false
 
     // tooltip & clickCursor
@@ -247,15 +247,15 @@ AFRAME.registerComponent('step-ctrl', {
       // }
     }
 
-    xrScene.sceneEl.addEventListener('xrimagefound', () => {
-      console.log('[app.js] Xr Image was founded!')
-      // 최초 한 번만 실행, Run only once at first
-      if (!isFirstFounded) {
-        isFirstFounded = true
-        guideDiv.style.display = 'none'
-        userClickHandler()
-      }
-    })
+    // xrScene.sceneEl.addEventListener('xrimagefound', () => {
+    //   console.log('[app.js] Xr Image was founded!')
+    //   // 최초 한 번만 실행, Run only once at first
+    //   if (!isFirstFounded) {
+    //     isFirstFounded = true
+    //     guideDiv.style.display = 'none'
+    //     userClickHandler()
+    //   }
+    // })
 
     // xrScene.sceneEl.addEventListener('xrimagelost', () => {
     //   console.log('[app.js] Xr Image was lost!')
