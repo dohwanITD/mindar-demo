@@ -4,12 +4,49 @@
 <html>
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- <script async src="https://unpkg.com/es-module-shims@1.3.6/dist/es-module-shims.js"></script>
+    <script type="importmap">
+    {
+      "imports": {
+        "three": "https://unpkg.com/three@0.147.0/build/three.module.js",
+        "three/addons/": "https://unpkg.com/three@0.147.0/examples/jsm/",
+      }
+    }
+    </script> -->
+    
+    <!-- <script type="module">
+      import * as THREE from 'three';
+    </script> -->
+
     <script src="https://aframe.io/releases/1.4.1/aframe.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/stats.js/16/Stats.min.js"></script>
-    <!-- <script src="../../src/image-target/aframe.js" type="module"></script> -->
-    <script src="../../dist/mindar-image-aframe-1280.prod.js" type="module"></script>
-    <!-- <script src="https://raw.githack.com/fcor/arjs-gestures/master/dist/gestures.js"></script>  -->
- 
+    <script src=" ../../../../../dist/mindar-image-aframe-1280.prod.js" type="module"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.1/howler.min.js"></script> <!-- Audio -->
+    <script src="https://unpkg.com/aframe-slice9-component/dist/aframe-slice9-component.min.js"></script> <!-- tooltip -->
+    <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras/dist/aframe-extras.min.js"></script> <!-- animation-mixer -->
+
+      <!-- stylesheet / css -->
+    <link rel="stylesheet" type="text/css" href="./src/subtitle.css">
+
+    <!-- 모듈로 받아올 것 -->
+    <!-- <script type="module" src='./src/aframe-gif-shader.js'></script> -->
+    <script type='text/javascript' src='./src/step-ctrl.js'></script>
+
+    <script>
+      AFRAME.registerComponent('cloak', {
+         init: function() {
+           let geometry = new THREE.BoxGeometry(1, 1, 1)
+          //  geometry.faces.splice(4, 2)
+            let material = new THREE.MeshBasicMaterial({
+               colorWrite: false
+            })
+            let mesh = new THREE.Mesh(geometry, material)
+            mesh.scale.set(1.1, 1.1, 1.1)
+            this.el.object3D.add(mesh)
+         }
+      })
+   </script>
 
     <style>
       body {
@@ -21,38 +58,47 @@
         width: 100%;
         height: 100%;
       }
+      #example-scanning-overlay {
+      }
+      #example-scanning-overlay.hidden {
+        display: none;
+      }
     </style>
   </head>
 
   <body>
     <div class="example-container">
       <a-scene 
-        mindar-image="imageTargetSrc: ../assets/kbbank-example/kbbank.mind; showStats: true; filterMinCF: 0.0001; filterBeta: 0.001; warmupTolerance: 5; missTolerance: 5;" 
+        mindar-image="imageTargetSrc: ../assets/kbbank-example/kbbank.mind; 
+        showStats: true; 
+        filterMinCF: 0.0001; filterBeta: 0.001; warmupTolerance: 5; missTolerance: 5;
+        uiError:no; uiLoading:no; uiScanning: #bank_trans" 
+        loading-screen="enabled: true; dotsColor: #ffbc50; backgroundColor: #60584c"
         embedded color-space="sRGB" 
         renderer="colorManagement: true, physicallyCorrectLights" 
         vr-mode-ui="enabled: false" 
         device-orientation-permission-ui="enabled: false"
         gesture-detector
       >
-      
         <a-assets>
-          <img id="card" src="../assets/card-example/card.png" />
+          <img id="tom" src=" https://stemkoski.github.io/AR-Examples/images/tiles.jpg">
+          <img id="bank_trans" src="./images/kbBank_trans.png">
+          <img id="clickGif" src="./images/click-hand-3d.gif">
+          <img id="tooltipImg" src="./images/tooltip_ol35.png">
+          <img id="card" src="../assets/card-example/card.png"/>
           <a-asset-item id="avatarModel" src="../assets/card-example/softmind/scene.gltf"></a-asset-item>
-          <a-asset-item id="bibi" src="./bibi.glb"></a-asset-item>
-          <a-asset-item id="foodtrailer" src="./stylized_food_truck.glb"></a-asset-item>
+          <a-asset-item id="bibi" src="./models/bibi.glb"></a-asset-item>
+          <a-asset-item id="foodtrailer" src="./models/stylized_food_truck.glb"></a-asset-item>
         </a-assets>
 
         <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
-        <a-entity light="type: ambient; intensity: 0.5;"></a-entity>
-        <a-entity light="type: directional;
-                         castShadow: true;
-                         intensity: 0.4;
-                         shadowCameraVisible: true;"
-                  position="-5 3 1.5">
-                </a-entity>
-
         <a-entity mindar-image-target="targetIndex: 0">
+          <a-box position='1 0 0' material='src:#tom; opacity: 1; color : grey;  side: back' cloak></a-box>
+
+          <!-- <a-entity id ='tooltipBox' class="cantap" scale="0.5 0.5 0.5" position="-0.105 0.018 0.002" slice9="color:red; width: 0.35; height: 0.4; left: 20; right: 43; top: 20; bottom: 43; src: #tooltipImg" ></a-entity>
+          <a-entity id='clickCursor' position="0.25 -0.445 0.004" geometry="primitive:plane;width:0.16;height:0.16;" material="shader:gif; src:#clickGif; alphaTest:0.5"></a-entity> -->
+
           <a-entity
             geometry="primitive: plane"
             position="0 0 0" height="0.552" width="1" rotation="0 0 0" 
@@ -64,20 +110,25 @@
           <!-- <a-plane color="blue" opaciy="0.5" position="0 0 0" height="0.552" width="1" rotation="0 0 0" ></a-plane> -->
           <!-- <a-plane src="#card" position="0 0 0" height="0.552" width="1" rotation="0 0 0"></a-plane> -->
 
-          <a-entity>
+          <!-- <a-entity>
             <a-gltf-model rotation="0 -90 0" position="0 -0.2 0.2" scale="5 5 5" src="#foodtrailer">
-          </a-entity>
+          </a-entity> -->
 
           <a-entity>
+            <a-gltf-model step-ctrl rotation="0 0 0" position="0 -0.2 0.2" scale="1 1 1" src="#bibi">
+            <a-gltf-model rotation="0 0 0" position="0 -0.2 0.2" scale="1 1 1" src="#bibi">
             <a-gltf-model rotation="0 0 0" position="0 -0.2 0.2" scale="1 1 1" src="#bibi">
           </a-entity>
-          
+
           <!-- <a-gltf-model rotation="0 0 0 " position="0 0 0.1" scale="0.005 0.005 0.005" src="#avatarModel"
           animation="property: position; to: 0 0.1 0.1; dur: 1000; easing: easeInOutQuad; loop: true; dir: alternate"
           >
            -->
         </a-entity>
       </a-scene>
+    </div>
+    <div id='subtitleBtn'  class='subtitle'>
+      <div id="sub">미리 작성 서비스 - 입금 편</div>
     </div>
   </body>
 </html>
