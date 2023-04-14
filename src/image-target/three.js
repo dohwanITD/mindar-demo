@@ -95,7 +95,7 @@ export class MindARThree {
 
       navigator.mediaDevices.getUserMedia({
         audio: false, video: {
-          facingMode: 'environment',
+          facingMode: 'environment', width: {ideal: 1920}, height: {ideal: 1080}
         }
       }).then((stream) => {
         this.video.addEventListener('loadedmetadata', () => {

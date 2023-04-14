@@ -1,4 +1,4 @@
-import { C as o } from "./controller-285ba9c8.js";
+import { C as o } from "./controller-5a93b3f5.js";
 import { U as r } from "./ui-610aec4e.js";
 const i = {
   Controller: o,
