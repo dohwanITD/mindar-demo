@@ -1,5 +1,5 @@
-import { C as o, a as r } from "./controller-1ed20fb7.js";
-import { U as i } from "./ui-610aec4e.js";
+import { C as o, a as r } from "./controller-6ae55bdd.js";
+import { U as i } from "./ui-56ede774.js";
 window.MINDAR || (window.MINDAR = {});
 window.MINDAR.IMAGE = {
   Controller: o,

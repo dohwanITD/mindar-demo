@@ -145,55 +145,55 @@ AFRAME.registerComponent('step-ctrl', {
       // ---------- Animation ---------- walk spin point stand bow wave idle break
       // this.data.isLerping = true
 
-      // if (stepIdx === 0) {
-      // } else if (stepIdx === 1) {
-      //   this.data.isLerping = true
-      //   this.el.setAttribute('animation', {property: 'scale', to: {x: 0.4, y: 0.4, z: 0.4}, dur: 3000, easing: 'linear', loop: false})
-      //   this.el.setAttribute('animation-mixer', {clip: 'wave', loop: 'repeat', crossFadeDuration: 0.4})
-      //   setTimeout(() => {
-      //     this.data.isLerping = false
-      //     this.el.setAttribute('animation-mixer', {clip: 'bow', loop: 'once', crossFadeDuration: 0.4})
-      //     setTimeout(() => {
-      //       this.el.setAttribute('animation-mixer', {clip: 'idle', loop: 'repeat', crossFadeDuration: 0.4})
-      //     }, 1000)
-      //   }, 3000)
-      //   // this.el.setAttribute('animation-mixer', {clip: 'bow', clampWhenFinished: true, startAt: 1, loop: 'repeat', crossFadeDuration: 0.4})
-      // } else if (stepIdx === 2) {
-      //   // this.el.setAttribute('animation-mixer', {clip: 'stand', clampWhenFinished: true, startAt: 1, loop: 'repeat', crossFadeDuration: 0.4})
-      //   this.el.setAttribute('animation-mixer', {clip: 'point', clampWhenFinished: true, startAt: 1, loop: 'repeat', crossFadeDuration: 0.4})
-      //   setTimeout(() => {
-      //     this.el.setAttribute('animation-mixer', {clip: 'idle', loop: 'repeat', crossFadeDuration: 0.4})
-      //   }, 4000)
-      // } else if (stepIdx === 3) {
-      //   this.el.setAttribute('animation-mixer', {clip: 'wave', clampWhenFinished: true, startAt: 1, loop: 'repeat', crossFadeDuration: 0.4})
-      //   setTimeout(() => {
-      //     this.el.setAttribute('animation-mixer', {clip: 'idle', loop: 'repeat', crossFadeDuration: 0.4})
-      //   }, 4000)
-      // } else if (stepIdx === 4) {
-      //   this.el.setAttribute('animation-mixer', {clip: 'point', clampWhenFinished: true, startAt: 1, loop: 'repeat', crossFadeDuration: 0.4})
-      //   setTimeout(() => {
-      //     this.el.setAttribute('animation-mixer', {clip: 'idle', loop: 'repeat', crossFadeDuration: 0.4})
-      //   }, 4000)
-      //   // this.el.setAttribute('animation-mixer', {clip: 'walk', loop: 'repeat', crossFadeDuration: 0.2})
-      // } else if (stepIdx === 5) {
-      //   this.el.setAttribute('animation-mixer', {clip: 'wave', clampWhenFinished: true, startAt: 1, loop: 'repeat', crossFadeDuration: 0.4})
-      //   setTimeout(() => {
-      //     this.el.setAttribute('animation-mixer', {clip: 'idle', loop: 'repeat', crossFadeDuration: 0.4})
-      //   }, 4000)
-      //   // this.el.setAttribute('animation-mixer', {clip: 'point', startAt: 0, loop: 'repeat', crossFadeDuration: 0.4})
-      // } else if (stepIdx === 6) {
-      //   this.el.setAttribute('animation-mixer', {clip: 'point', clampWhenFinished: true, startAt: 1, Loop: 'repeat', crossFadeDuration: 0.4})
-      //   setTimeout(() => {
-      //     this.el.setAttribute('animation-mixer', {clip: 'idle', loop: 'repeat', crossFadeDuration: 0.4})
-      //   }, 4000)
-      //   // this.el.setAttribute('animation-mixer', {clip: 'point', startAt: 0, loop: 'repeat', crossFadeDuration: 0.4})
-      // } else if (stepIdx === 7) {
-      //   this.el.setAttribute('animation-mixer', {clip: 'wave', clampWhenFinished: true, startAt: 1, loop: 'repeat', crossFadeDuration: 0.4})
-      //   setTimeout(() => {
-      //     this.el.setAttribute('animation-mixer', {clip: 'idle', loop: 'repeat', crossFadeDuration: 0.4})
-      //   }, 4000)
-      //   // this.el.setAttribute('animation-mixer', {clip: 'point', startAt: 0, loop: 'repeat', crossFadeDuration: 0.4})
-      // }
+      if (stepIdx === 0) {
+      } else if (stepIdx === 1) {
+        this.data.isLerping = true
+        this.el.setAttribute('animation', {property: 'scale', to: {x: 0.4, y: 0.4, z: 0.4}, dur: 3000, easing: 'linear', loop: false})
+        this.el.setAttribute('animation-mixer', {clip: 'wave', loop: 'repeat', crossFadeDuration: 0.4})
+        setTimeout(() => {
+          this.data.isLerping = false
+          this.el.setAttribute('animation-mixer', {clip: 'bow', loop: 'once', crossFadeDuration: 0.4})
+          setTimeout(() => {
+            this.el.setAttribute('animation-mixer', {clip: 'idle', loop: 'repeat', crossFadeDuration: 0.4})
+          }, 1000)
+        }, 3000)
+        // this.el.setAttribute('animation-mixer', {clip: 'bow', clampWhenFinished: true, startAt: 1, loop: 'repeat', crossFadeDuration: 0.4})
+      } else if (stepIdx === 2) {
+        // this.el.setAttribute('animation-mixer', {clip: 'stand', clampWhenFinished: true, startAt: 1, loop: 'repeat', crossFadeDuration: 0.4})
+        this.el.setAttribute('animation-mixer', {clip: 'point', clampWhenFinished: true, startAt: 1, loop: 'repeat', crossFadeDuration: 0.4})
+        setTimeout(() => {
+          this.el.setAttribute('animation-mixer', {clip: 'idle', loop: 'repeat', crossFadeDuration: 0.4})
+        }, 4000)
+      } else if (stepIdx === 3) {
+        this.el.setAttribute('animation-mixer', {clip: 'wave', clampWhenFinished: true, startAt: 1, loop: 'repeat', crossFadeDuration: 0.4})
+        setTimeout(() => {
+          this.el.setAttribute('animation-mixer', {clip: 'idle', loop: 'repeat', crossFadeDuration: 0.4})
+        }, 4000)
+      } else if (stepIdx === 4) {
+        this.el.setAttribute('animation-mixer', {clip: 'point', clampWhenFinished: true, startAt: 1, loop: 'repeat', crossFadeDuration: 0.4})
+        setTimeout(() => {
+          this.el.setAttribute('animation-mixer', {clip: 'idle', loop: 'repeat', crossFadeDuration: 0.4})
+        }, 4000)
+        // this.el.setAttribute('animation-mixer', {clip: 'walk', loop: 'repeat', crossFadeDuration: 0.2})
+      } else if (stepIdx === 5) {
+        this.el.setAttribute('animation-mixer', {clip: 'wave', clampWhenFinished: true, startAt: 1, loop: 'repeat', crossFadeDuration: 0.4})
+        setTimeout(() => {
+          this.el.setAttribute('animation-mixer', {clip: 'idle', loop: 'repeat', crossFadeDuration: 0.4})
+        }, 4000)
+        // this.el.setAttribute('animation-mixer', {clip: 'point', startAt: 0, loop: 'repeat', crossFadeDuration: 0.4})
+      } else if (stepIdx === 6) {
+        this.el.setAttribute('animation-mixer', {clip: 'point', clampWhenFinished: true, startAt: 1, Loop: 'repeat', crossFadeDuration: 0.4})
+        setTimeout(() => {
+          this.el.setAttribute('animation-mixer', {clip: 'idle', loop: 'repeat', crossFadeDuration: 0.4})
+        }, 4000)
+        // this.el.setAttribute('animation-mixer', {clip: 'point', startAt: 0, loop: 'repeat', crossFadeDuration: 0.4})
+      } else if (stepIdx === 7) {
+        this.el.setAttribute('animation-mixer', {clip: 'wave', clampWhenFinished: true, startAt: 1, loop: 'repeat', crossFadeDuration: 0.4})
+        setTimeout(() => {
+          this.el.setAttribute('animation-mixer', {clip: 'idle', loop: 'repeat', crossFadeDuration: 0.4})
+        }, 4000)
+        // this.el.setAttribute('animation-mixer', {clip: 'point', startAt: 0, loop: 'repeat', crossFadeDuration: 0.4})
+      }
 
       // setTimeout(() => {
       //   // this.data.isLerping = false
