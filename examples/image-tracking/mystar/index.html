@@ -69,16 +69,17 @@
       >
         <a-assets>
           <img id="tom" src=" https://stemkoski.github.io/AR-Examples/images/tiles.jpg">
-          <img id="bank_trans" src="./images/kbBank_trans.png">
-          <img id="clickGif" src="./images/click-hand-3d.gif">
-          <img id="tooltipImg" src="./images/tooltip_ol35.png">
+          <img id="bank_trans" src="../../assets/images/kbBank_trans.png">
+          <img id="clickGif" src="../../assets/images/click-hand-3d.gif">
+          <img id="tooltipImg" src="../../assets/images/tooltip_ol35.png">
+          
           <img id="card" src="../assets/card-example/card.png"/>
           <a-asset-item id="avatarModel" src="../assets/card-example/softmind/scene.gltf"></a-asset-item>
           
-          <a-asset-item id="supporter" src="./models/ar_taewon.glb"></a-asset-item>
-          <a-asset-item id="bibi" src="./models/bibi.glb"></a-asset-item>
-          <a-asset-item id="rabbit" src="./models/rabbit.glb"></a-asset-item>
-          <a-asset-item id="foodtrailer" src="./models/Car.glb"></a-asset-item>
+          <!-- <a-asset-item id="supporter" src="../../assets/models/ar_taewon.glb"></a-asset-item> -->
+          <!-- <a-asset-item id="bibi" src="../../assets/models/bibi.glb"></a-asset-item> -->
+          <a-asset-item id="rabbit" src="../../assets/models/rabbit.glb"></a-asset-item>
+          <a-asset-item id="foodtrailer" src="../../assets/models/car/car.gltf"></a-asset-item>
         </a-assets>
 
         <a-camera position="0 0 0" look-controls="enabled: false">
@@ -102,10 +103,16 @@
           <a-box position='1 0 0' material='src:#tom; opacity: 1; color : grey;  side: back' cloak></a-box>
 
           <a-entity position="0 -0.2 0.2" scale="0.15 0.15 0.15">
-            <!-- <a-gltf-model src="#foodtrailer"></a-gltf-model> -->
-            <a-gltf-model step-ctrl position="0 1.2 0" scale="0.85 0.85 0.85" src="#supporter"></a-gltf-model>
+            <a-gltf-model src="#foodtrailer"></a-gltf-model>
+            <a-gltf-model step-ctrl position="0 1.2 0" scale="0.85 0.85 0.85" src="#rabbit"></a-gltf-model>
             <!-- <a-gltf-model rotation="0 0 0" position="0 -0.2 0.2" scale="1 1 1" src="#bibi">
             <a-gltf-model rotation="0 0 0" position="0 -0.2 0.2" scale="1 1 1" src="#bibi"> -->
+              
+            <a-entity id="objects" scale="0.2 0.2 0.2" position="0 0 -1" shadow>
+              <a-box position="-1 0.5 1" rotation="0 45 0" color="#4CC3D9"></a-box>
+              <a-sphere position="0 1.25 -1" radius="1.25" color="#EF2D5E"></a-sphere>
+              <a-cylinder position="1 0.75 1" radius="0.5" height="1.5" color="#FFC65D"></a-cylinder>
+            </a-entity>
           </a-entity>
 
           <!-- <a-entity id ='tooltipBox' class="cantap" scale="0.5 0.5 0.5" position="-0.105 0.018 0.002" slice9="color:red; width: 0.35; height: 0.4; left: 20; right: 43; top: 20; bottom: 43; src: #tooltipImg" ></a-entity>

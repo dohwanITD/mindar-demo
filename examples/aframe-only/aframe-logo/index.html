@@ -7,6 +7,19 @@
   <meta name="description" content="A-Frame Logo - A-Frame">
   <script src="https://aframe.io/releases/1.4.1/aframe.min.js"></script>
   <script src="https://unpkg.com/aframe-event-set-component@4.2.1/dist/aframe-event-set-component.min.js"></script>
+
+  <script>
+    AFRAME.registerComponent('follow-shadow', {
+      schema: {type: 'selector'},
+      init() {this.el.object3D.renderOrder = -1;},
+      tick() { 
+        if (this.data) {
+          this.el.object3D.position.copy(this.data.object3D.position); 
+          this.el.object3D.position.y-=0.001; // stop z-fighting
+        }
+      }
+    });
+  </script>
 </head>
 
 <body>
@@ -32,14 +45,14 @@
     shadow="type:pcfsoft">
 
     <a-light type="directional" light="castShadow:true;" position="1 1 1" intensity="0.5" shadow-camera-automatic="#objects"></a-light>
-    <!-- <a-camera position="0 10 40" rotation="-34 0 0" wasd-controls="acceleration:10;"></a-camera> -->
+    <a-camera position="0 0.4 0" wasd-controls="acceleration:10;"></a-camera>
 
     <!-- Quasi-isometric camera -->
-    <a-entity animation="property: object3D.position.y; from: 5; to: 0; dur: 4000; easing: easeOutCubic">
+    <!-- <a-entity animation="property: object3D.position.y; from: 5; to: 0; dur: 4000; easing: easeOutCubic">
       <a-entity position="0 880 1290" rotation="-34 0 0">
         <a-entity id="camera" camera="near: 1000; far: 4000; fov: 2.2"  wasd-controls="acceleration:10;" ></a-entity>
       </a-entity>
-    </a-entity>
+    </a-entity> -->
 
     <!-- <a-entity id="objects" scale="0.2 0.2 0.2" position="0 0 -1" shadow>
       <a-box position="-1 0.5 1" rotation="0 45 0" color="#4CC3D9"></a-box>
@@ -58,7 +71,11 @@
         visible="false"></a-mixin>
     </a-assets>
 
-
+    <a-entity id="objects" scale="0.2 0.2 0.2" position="0 0 -1" shadow>
+      <a-box position="-1 0.5 1" rotation="0 45 0" color="#4CC3D9"></a-box>
+      <a-sphere position="0 1.25 -1" radius="1.25" color="#EF2D5E"></a-sphere>
+      <a-cylinder position="1 0.75 1" radius="0.5" height="1.5" color="#FFC65D"></a-cylinder>
+    </a-entity>
 
     <a-entity id="logo" rotation="0 45 0">
       <!-- Right side -->
@@ -133,12 +150,12 @@
         <a-entity mixin="tree" animation="delay: 600" animation__visible="delay: 600"></a-entity>
       </a-entity>
 
-      <a-entity position="10 0.2 10" rotation="-90 0 0">
+      <!-- <a-entity position="10 0.2 10" rotation="-90 0 0">
         <a-entity id="tree" position="0 10 0"
           animation="property: object3D.position.y; to: 0; dur: 800; easing: easeOutCubic"
           event-set__loaded="visible: true; _delay: 100" gltf-model="#car" scale="2.5 2.5 2.5" visible="false"
           animation="delay: 9000" animation__visible="delay: 600"></a-entity>
-      </a-entity>
+      </a-entity> -->
 
     </a-entity>
 

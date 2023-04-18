@@ -83,7 +83,7 @@ AFRAME.registerComponent('step-ctrl', {
       // ---------- Sound ----------
       if (sound !== null) sound.stop()  // 플레이중인 음원이 있으면 스탑
       sound = new window.Howl({
-        src: (`audios/tts_0${stepIdx}.mp3`),
+        src: (`../../assets/audios/tts_0${stepIdx}.mp3`),
       })
       sound.play()
 
