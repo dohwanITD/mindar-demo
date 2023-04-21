@@ -23,6 +23,8 @@ AFRAME.registerComponent('step-ctrl', {
     let stepIdx = -1
     let interval = null
 
+    const MAX_STEP_LEN = 6;
+
     // Guide Panel
     const guideDiv = document.getElementById('guidePanel')
 
@@ -66,7 +68,6 @@ AFRAME.registerComponent('step-ctrl', {
   
     // 오디오
     let sound = null
-
     
     /// //////////////////////////////////////////////////////////
     /// -------------------- stepHandler -------------------- ///
@@ -202,9 +203,9 @@ AFRAME.registerComponent('step-ctrl', {
       //   // console.log(this.data.positions[this.data.currPosIdx])
       // }, 2000)
 
-      // if (stepIdx === MAX_STEP_LEN) {
-      //   stepIdx = -1
-      // }
+      if (stepIdx === MAX_STEP_LEN) {
+        stepIdx = -1
+      }
     }
 
 
