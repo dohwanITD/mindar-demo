@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Hello, AR World! • A-Frame</title>
+    <meta name="description" content="Hello, AR World! • A-Frame">
+    <script src="https://aframe.io/releases/1.4.1/aframe.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.1/howler.min.js"></script> <!-- Audio -->
+    <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras/dist/aframe-extras.min.js"></script> <!-- animation-mixer -->
+
+    <!-- stylesheet / css -->
+    <link rel="stylesheet" type="text/css" href="./src/subtitle.css">
+
+    <!-- 모듈로 받아올 것 -->
+    <!-- <script type="module" src='./src/aframe-gif-shader.js'></script> -->
+    <script type='text/javascript' src='./src/step-ctrl.js'></script>
+
+    <script>
+      AFRAME.registerComponent('follow-shadow', {
+        schema: {type: 'selector'},
+        init() {this.el.object3D.renderOrder = -1;},
+        tick() { 
+          if (this.data) {
+            this.el.object3D.position.copy(this.data.object3D.position); 
+            this.el.object3D.position.y-=0.001; // stop z-fighting
+          }
+        }
+      });
+
+      AFRAME.registerComponent('cloak', {
+         init: function() {
+           let geometry = new THREE.BoxGeometry(1, 1, 1)
+          //  geometry.faces.splice(4, 2)
+            let material = new THREE.MeshBasicMaterial({
+               colorWrite: false
+            })
+            let mesh = new THREE.Mesh(geometry, material)
+            mesh.scale.set(1.1, 1.1, 1.1)
+            this.el.object3D.add(mesh)
+         }
+      })
+    </script>
+  </head>
+  <body>
+    <div>
+    <a-scene
+      reflection="directionalLight:a-light[type=directional]"
+      ar-hit-test="target:#objects;"
+      renderer="physicallyCorrectLights:true;colorManagement:true;exposure:1;toneMapping:ACESFilmic;"
+      shadow="type:pcfsoft"
+      loading-screen="enabled: false; dotsColor: #ffbc50; backgroundColor: #60584c"
+      
+    >
+
+    <a-assets>
+      <img id="tom" src=" https://stemkoski.github.io/AR-Examples/images/tiles.jpg">
+     
+      <a-asset-item id="treeModel" src="../../assets/models/tree1.glb"></a-asset-item>
+      <a-mixin id="tree" position="0 3 0"
+        animation="property: object3D.position.y; to: 0; dur: 800; easing: easeOutCubic"
+        gltf-model="#treeModel" scale="2.5 2.5 2.5"
+      ></a-mixin>
+
+      <a-asset-item id="teawonModel" src="../../assets/models/ar_taewon.glb"></a-asset-item>
+      <a-asset-item id="rabbitModel" src="../../assets/models/wave_goodbye.glb"></a-asset-item>
+      <a-asset-item id="milkModel" src="../../assets/models/milk_delivery.glb"></a-asset-item>
+      <!-- <a-asset-item id="carModel" src="../../assets/models/Car_Update/Car_New_GLB.glb"></a-asset-item> -->
+      <!-- <a-asset-item id="carModel" src="../../assets/models/Car/Car_NewColor_GLB.glb"></a-asset-item> -->
+      <a-asset-item id="carModel" src="../../assets/models/Car_Old_GLB_UpdateRotate.glb"></a-asset-item>
+    </a-assets>
+
+      <!-- <a-light type="directional" light="castShadow:true;" position="1 1 1" intensity="0.5" shadow-camera-automatic="#objects"></a-light> -->
+      <a-entity light="type: hemisphere;  intensity: 0.75; color: #ffffff; groundColor: #444444;" position="0, 20, 10"></a-entity>
+      <a-entity light="type: directional; intensity: 0.75; color: #ffffff;" color="#ffffff" position="0, 20, 10"></a-entity>
+     
+      <a-camera position="0 0.4 0" wasd-controls="acceleration:10;"></a-camera>
+      
+      <!-- <a-gltf-model src="#milkModel" position="-0.2 0 -1" scale="10 10 10"  rotation="0 -90 0"></a-gltf-model> -->
+      
+      <a-entity id="objects" scale="0.2 0.2 0.2" position="0 0 -1" shadow>
+        <!-- <a-box position="-1 0.5 1" rotation="0 45 0" color="#4CC3D9"></a-box>
+        <a-sphere position="0 1.25 -1" radius="1.25" color="#EF2D5E"></a-sphere>
+        <a-cylinder position="1 0.75 1" radius="0.5" height="1.5" color="#FFC65D"></a-cylinder> -->
+      
+        <a-gltf-model id ="car" src="#carModel" position="6 0 0">
+          <a-gltf-model id ="rabbit" src="#rabbitModel" position="0 1.2 0" scale="0.85 0.85 0.85" animation-mixer="clip: idle; loop: once"></a-gltf-model>
+        </a-gltf-model>
+
+        <a-gltf-model step-ctrl id ="teawon" src="#teawonModel" position="0 1.2 0" scale="0.85 0.85 0.85" animation-mixer="clip:idle; loop: repeat: crossFadeDuration: 0.4"></a-gltf-model>
+        
+        <!-- <a-box position='4 3 0' scale="3 3 3" material='src:#tom; opacity: 1; color : grey;  side: back' cloak></a-box> -->
+
+        <a-entity scale="0.2 0.2 0.2" rotation="0 45 0" > 
+          <a-entity id="logo">
+            <!-- Clouds -->
+            <a-entity>
+              <!-- Large, foreground -->
+              <a-box animation="property: object3D.position.z; to: 340; dur: 36000; loop: true" position="-280 240 180"
+                color="white" opacity="0.25" width="18" depth="28" height="6"></a-box>
+      
+              <a-box animation="property: object3D.position.z; to: 120; delay: 12000; dur: 48000; easing: linear; loop: true"
+                position="5 32 -80" color="white" opacity="0.65" width="8" depth="12" height="4"></a-box>
+      
+              <!-- Behind the A -->
+              <a-box animation="property: object3D.position.z; to: 100; delay: 1000; dur: 36000"
+                 position="10 12 -10" color="white" opacity="0.75" width="6"
+                depth="9" height="4" ></a-box>
+      
+              <a-box animation="property: object3D.position.z; to: 120; delay: 200; dur: 52000; easing: linear; loop: true"
+                position="20 16 -80" color="white" opacity="0.5" width="8" depth="12" height="3"></a-box>
+      
+              <a-box animation="property: object3D.position.z; to: 120; delay: 200; dur: 50000; easing: linear; loop: true"
+                position="-20 18 -50" color="white" opacity="0.8" width="8" depth="12" height="3"></a-box>
+      
+              <a-box animation="property: object3D.position.z; to: 120; delay: 20000; dur: 48000" position="26 20 -80"
+                color="white" opacity="0.75" width="5" depth="7" height="3"></a-box>
+            </a-entity>
+      
+            <!-- Shadow -->
+            <a-entity rotation="-90 0 0">
+              <a-plane
+                animation="property: object3D.scale.y; from: 0.0001; to: 1; easing: easeOutCubic; delay: 600; dur: 1000"
+                width="12.5" height="20" position="0 0 0.1" pivot="0 -10 0" color="#21897C" scale="1 0.0001 1"></a-plane>
+            </a-entity>
+      
+            <!-- Base -->
+            <a-entity>
+              <a-plane animation="property: object3D.position.y; to: 0; dur: 1600; easing: easeOutCubic" width="30"
+                height="30" color="#249889" rotation="-90 0 0" position="0 -40 0"></a-plane>
+            </a-entity>
+      
+            <!-- Trees -->
+            <a-entity position="-10 0.2 -10">
+              <a-entity id="tree" mixin="tree" animation="delay: 650" animation__visible="delay: 800"></a-entity>
+            </a-entity>
+            <a-entity position="-10 0.2 6">
+              <a-entity mixin="tree" animation="delay: 400" animation__visible="delay: 400"></a-entity>
+            </a-entity>
+            <a-entity position="10 0.2 10">
+              <a-entity mixin="tree" animation="delay: 600" animation__visible="delay: 600"></a-entity>
+            </a-entity>
+          </a-entity>
+
+      </a-entity>
+
+      <a-plane follow-shadow="#objects" material="shader:shadow" shadow="cast:false;" rotation="-90 0 0" width="2" height="2"></a-plane>
+      <a-sky color="#ECECEC" hide-on-enter-ar></a-sky>
+    </a-scene>
+    <div id='subtitleBtn'  class='subtitle'>
+      <div id="sub">미리 작성 서비스 - 입금 편</div>
+    </div>
+  </div>
+  </body>
+</html>

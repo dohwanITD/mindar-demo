@@ -21,7 +21,7 @@ AFRAME.registerComponent('step-ctrl', {
 
         // document.addEventListener("DOMContentLoaded", function () 
         // {
-            console.log("Step-ctrl DOMContentLoaded");
+        //     console.log("Step-ctrl DOMContentLoaded");
         
             // Variable ----------
             let stepIdx = -1
@@ -29,7 +29,8 @@ AFRAME.registerComponent('step-ctrl', {
             let animInterval = null
             let animInterval2 = null
 
-            const MAX_STEP_LEN = 6;
+            let isNeedRabbitIdle = false;
+            const MAX_STEP_LEN = 8;
 
             // const sceneEl = document.querySelector('a-scene');
             // const arSystem = sceneEl.systems["mindar-image-system"];
@@ -82,7 +83,6 @@ AFRAME.registerComponent('step-ctrl', {
             const subtitle = document.getElementById('subtitleBtn')
             subtitle.innerText = '「갓생살기 with 펀드」'
 
-
             // Audio - BGM & TTS ------
             let soundTTS = null // TTS
 
@@ -109,6 +109,9 @@ AFRAME.registerComponent('step-ctrl', {
             // Animation Evnet ----------
             rabbit.addEventListener('animation-finished', () => {
                 console.log('The Rabbit animation is finished!')
+                if (isNeedRabbitIdle) {
+                    rabbit.setAttribute('animation-mixer', { clip: 'Idle', loop: 'repeat', timeScale: 1 })
+                }
                 // 최초 한 번만 실행, Run only once at first
             })
 
@@ -118,6 +121,17 @@ AFRAME.registerComponent('step-ctrl', {
             })
 
 
+             // 01: Idle      (Frame Start:  0,         Frame End :  48 )
+            // 02: Delight   (Frame Start: 60,         Frame End : 105 )
+            // 03: Walk      (Frame Start: 115,        Frame End : 138 )
+            // 04: Joy       (Frame Start: 149,        Frame End : 256 )
+            // 05: Pride     (Frame Start: 270,        Frame End : 346 )
+            // 06: Confetti  (Frame Start: 379,        Frame End : 447 )
+            // 07: Wave goodbye (Frame Start: 480,     Frame End : 573 )
+            // 08: Surprise   (Frame Start: 600,     Frame End : 619 )
+            // 09: Gift_01 (Frame Start: 640 ,     Frame End :880 )
+            // 10: Gift_02 (Frame Start: 940 ,     Frame End :1180  )
+            // 11: Gift_03 (Frame Start: 1252,     Frame End :1490 )
 
             /// //////////////////////////////////////////////////////////
             /// -------------------- stepHandler -------------------- ///
@@ -135,13 +149,16 @@ AFRAME.registerComponent('step-ctrl', {
                     soundTTS.stop()  // 플레이중인 음원이 있으면 스탑
                     soundTTS = null;
                 }
-                soundTTS = new window.Howl({
-                    src: (`../../assets/audios/tts_0${stepIdx}.mp3`),
-                })
-                soundTTS.play()
-
+                if (stepIdx > 0) {
+                    soundTTS = new window.Howl({
+                        src: (`../../assets/audios/tts_0${stepIdx -1}.mp3`),
+                    })
+                    soundTTS.play()
+                } 
+               
                 // ---------- Animation ---------- walk spin point stand bow wave idle break
                 if (animInterval != null) {
+                    console.log("clearInterval")
                     clearInterval(animInterval)
                 }
                 const animationMixer = rabbit.getAttribute('animation-mixer')
@@ -150,61 +167,53 @@ AFRAME.registerComponent('step-ctrl', {
                     animationMixer.crossFadeDuration = 0.2
                     // animationMixer.startAt = 0
                 }
-
-                const delaytime = 4000
-                const pointDelaytime = 3000
-                // this.data.isLerping = true
+              
                 if (stepIdx === 0) {
+                    rabbit.setAttribute('animation-mixer', { clip: 'Idle', loop: 'repeat' })
+                    // isNeedRabbitIdle = true;
 
-                } else if (stepIdx === 1) {
-                    this.data.isLerping = true
-                    rabbit.removeAttribute('animation-mixer')
-                
+                    //Open_Door Close_Door Wheel_Rotate
                     car.setAttribute('animation', {property: 'position', to: {x: 0, y: 0, z: 0}, dur: 4000, easing: 'easeInOutCubic', loop: false})
                     car.setAttribute('animation-mixer', { clip: 'Wheel_Rotate', loop: 'once' })
 
                     animInterval = setTimeout(() => {
-                        // car.setAttribute('animation-mixer', { clip: 'Wheel_Rotate', loop: 'once' })
-                    }, 2000)
-                } else if (stepIdx === 2) {
-                    if (animInterval2 != null) {
-                        clearInterval(animInterval2)
-                        animInterval2 = null
-                    }
+                        console.log("Open_Door");
+                        car.setAttribute('animation-mixer', { clip: 'Open_Door', loop: 'once' });
+                        rabbit.setAttribute('animation-mixer', { clip: 'Wave goodbye', loop: 'once' })
+                        isNeedRabbitIdle = true;
+                    }, 4000)
+                } else if (stepIdx === 1) {  // 「갓생살기 with 펀드」란?
+                    console.log(3);
+                    rabbit.setAttribute('animation-mixer', { clip: 'Joy', loop: 'repeat', repetitions : 3 })
+                    isNeedRabbitIdle = true;
 
-                    rabbit.setAttribute('animation-mixer', { clip: 'you', loop: 'once' })
-                    animInterval = setTimeout(() => {
-                        rabbit.setAttribute('animation-mixer', { clip: 'idle', loop: 'repeat', clampWhenFinished: true, crossFadeDuration: 0.4 })
-                    }, 2500)
-                } else if (stepIdx === 3) {
-                    rabbit.setAttribute('animation-mixer', { clip: 'thinking', loop: 'once' })
-                    animInterval = setTimeout(() => {
-                        rabbit.setAttribute('animation-mixer', { clip: 'idle', loop: 'repeat' })
-                    }, 5000)
+                } else if (stepIdx === 2) { // 펀드신규 이벤트
+                    rabbit.setAttribute('animation-mixer', { clip: 'Pride', loop: 'once' })
+                    isNeedRabbitIdle = true;
+
+                } else if (stepIdx === 3) { // 모든 상품이 대상은 아니고
+                    rabbit.setAttribute('animation-mixer', { clip: 'Surprise', loop: 'once', timeScale: 0.5 })
+                    isNeedRabbitIdle = true;
+
                 } else if (stepIdx === 4) {
-                    rabbit.setAttribute('animation-mixer', { clip: 'question', loop: 'once' })
-                    animationMixer.startAt = 0
-                    animInterval = setTimeout(() => {
-                        rabbit.setAttribute('animation-mixer', { clip: 'idle', loop: 'repeat', lampWhenFinished: true, crossFadeDuration: 0.2 })
-                    }, pointDelaytime)
-                    // rabbit.setAttribute('animation-mixer', {clip: 'walk', loop: 'repeat', crossFadeDuration: 0.2})
+                    rabbit.setAttribute('animation-mixer', { clip: 'Gift_01', loop: 'once' })
+                    isNeedRabbitIdle = true;
+
                 } else if (stepIdx === 5) {
-                    rabbit.removeAttribute('animation-mixer')
-                    rabbit.setAttribute('animation-mixer', { clip: 'you', loop: 'once' })
-                    animInterval = setTimeout(() => {
-                        rabbit.setAttribute('animation-mixer', { clip: 'idle', loop: 'repeat' })
-                    }, 2500)
+                    rabbit.setAttribute('animation-mixer', { clip: 'Gift_02', loop: 'once' })
+                    isNeedRabbitIdle = true;
+
                 } else if (stepIdx === 6) {
-                    rabbit.setAttribute('animation-mixer', { clip: 'question', loop: 'once' })
-                    animationMixer.startAt = 0
-                    animInterval = setTimeout(() => {
-                        rabbit.setAttribute('animation-mixer', { clip: 'idle', loop: 'repeat', lampWhenFinished: true, crossFadeDuration: 0.4 })
-                    }, pointDelaytime)
-                } else if (stepIdx === 7) {
-                    rabbit.setAttribute('animation-mixer', { clip: 'bow', loop: 'once' })
-                    animInterval = setTimeout(() => {
-                        rabbit.setAttribute('animation-mixer', { clip: 'idle', loop: 'repeat' })
-                    }, 2000)
+                    rabbit.setAttribute('animation-mixer', { clip: 'Gift_03', loop: 'once' })
+                    isNeedRabbitIdle = true;
+
+                } else if (stepIdx === 7) { // 펀드 신규고객 총 2233명
+                    rabbit.setAttribute('animation-mixer', { clip: 'Confetti', loop: 'once' })
+                    isNeedRabbitIdle = true;
+                 
+                } else if (stepIdx === 8) { // 펀드 신규고객 총 2233명
+                    rabbit.setAttribute('animation-mixer', { clip: 'Delight', loop: 'once' })
+                    isNeedRabbitIdle = true;
                 }
 
                 // setTimeout(() => {
