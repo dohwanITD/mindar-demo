@@ -13,43 +13,19 @@ AFRAME.registerComponent('step-ctrl', {
             let stepIdx = -1
             let interval = null
             let animInterval = null
-            let animInterval2 = null
-
+            let isFirstTime = true;
             let isNeedRabbitIdle = false;
             let isNeedOutherAnim = false;
+            let delightCount = -1;
             const MAX_STEP_LEN = 8;
 
             const clapSound = 'clap'
-
-            // const sceneEl = document.querySelector('a-scene');
-            // const arSystem = sceneEl.systems["mindar-image-system"];
-
-            // // arReady event triggered when ready
-            // sceneEl.addEventListener("arReady", (event) => {
-            //     // console.log("MindAR is ready")
-            // });
-            // // arError event triggered when something went wrong. Mostly browser compatbility issue
-            // sceneEl.addEventListener("arError", (event) => {
-            //     // console.log("MindAR failed to start")
-            // });
-            // // detect target found
-            // exampleTarget.addEventListener("targetFound", event => {
-            //     console.log("target found");
-            // });
-            // // detect target lost
-            // exampleTarget.addEventListener("targetLost", event => {
-            //     console.log("target lost");
-            // });
 
             const car = document.getElementById('car')
             const rabbit = document.getElementById('rabbit')
 
             // Guide Panel ----------
             const guideDiv = document.getElementById('guidePanel')
-
-            // XrScene ----------
-            const xrScene = document.getElementById('xrScene')
-            let isFirstFounded = false
 
             // TTS Script
             const captionList = [
@@ -64,16 +40,20 @@ AFRAME.registerComponent('step-ctrl', {
                 // 안녕하세요
                 '안녕하세요',
                 '「갓생살기 with 펀드」, 펀드와 함께 재테크 목표달성을 위한 생활을 시작해보자!',
-                '5월 2일부터 6월 30일까지',
+                '5월 2일부터 6월 30일까지!',
                 '참여운용사 상품을 가입했을때만 이벤트 대상이 된답니다!', 
-                '임의식펀드 5백만원이상 또는 적립식펀드 30만원 이상 1,623명을 추첨',
-                ' 임의식펀드 5천만원이상 또는 적립식펀드 1백만원이상 510명을 추첨',  
-                '연금저축펀드 TDF상품을 가입한고객 중 100명을 추첨',  
+                '임의식펀드 5백만원이상 또는 적립식펀드 30만원 이상 1,623명을 추첨!',
+                ' 임의식펀드 5천만원이상 또는 적립식펀드 1백만원이상 510명을 추첨!',  
+                '연금저축펀드 TDF상품을 가입한고객 중 100명을 추첨!',  
                 '펀드 신규고객 총 2233명을 추첨 경품을 드리는 펀드신규이벤트!', 
                 '감사합니다.'
             ]
             const subtitle = document.getElementById('subtitleBtn')
             subtitle.innerText = '안녕하세요'
+
+            const sceneEl = document.querySelector('a-scene');
+            const exampleTarget = document.querySelector('#example-target');
+            // const arSystem = sceneEl.systems["mindar-image-system"];
 
             // Audio - BGM & TTS ------
             let soundTTS = null // TTS
@@ -101,26 +81,53 @@ AFRAME.registerComponent('step-ctrl', {
             })
 
             // Animation Evnet ----------
-            rabbit.addEventListener('animation-finished', () => {
+        rabbit.addEventListener('animation-finished', () => {
 
-                console.log('The Rabbit animation is finished!')
+            console.log('The Rabbit anim all loop is finished!')
 
-                if (isNeedRabbitIdle) {
-                    isNeedRabbitIdle = false;
-                    console.log("isNeedRabbitIdle")
-                    rabbit.setAttribute('animation-mixer', { clip: 'Idle', loop: 'repeat', repetitions : 'Infinity' })
-                } else if (isNeedOutherAnim) {
-                    isNeedOutherAnim = false;
-                    isNeedRabbitIdle = true;
-                    console.log("isNeedOutherAnim")
-                    rabbit.setAttribute('animation-mixer', {
-                        clip: 'Delight',
-                        loop: 'repeat',
-                        repetitions : '2',
+            if (isNeedRabbitIdle) {
+                isNeedRabbitIdle = false;
+                console.log("isNeedRabbitIdle")
+                rabbit.setAttribute('animation-mixer', { 
+                    clip: 'Idle', 
+                    loop: 'repeat', 
+                    startAt: 0,
+                    timeScale: 1,
+                    repetitions: 'Infinity', 
+                    crossFadeDuration: 0.4
+                 })
+            } else if (isNeedOutherAnim) {
+                isNeedOutherAnim = false;
+                isNeedRabbitIdle = true;
+                console.log("isNeedOutherAnim")
+                rabbit.setAttribute('animation-mixer', {
+                    clip: 'Delight',
+                    loop: 'repeat',
+                    startAt: 0,
+                    timeScale: 1,
+                    repetitions: 'Infinity', 
+                    crossFadeDuration: 0.4
+                })
+                delightCount = 0
+            }
+        })
+
+        rabbit.addEventListener('animation-loop', (action) => { 
+            if(delightCount > -1){
+                ++delightCount;
+                if(delightCount === 2){
+                    delightCount = -1;
+                    rabbit.setAttribute('animation-mixer', { 
+                        clip: 'Idle', 
+                        loop: 'repeat', 
+                        startAt: 0,
                         timeScale: 1,
-                    })
+                        repetitions: 'Infinity', 
+                        crossFadeDuration: 0.4
+                     })
                 }
-            })
+            }
+        })
 
             // car.addEventListener('animation-finished', () => {
             //     console.log('The car animation is finished!')
@@ -150,7 +157,6 @@ AFRAME.registerComponent('step-ctrl', {
 
                 // ---------- Caption ----------
                 subtitle.innerText = captionList[stepIdx]
-
                 // ---------- Sound ----------
                 if (soundTTS !== null) {
                     soundTTS.stop()  // 플레이중인 음원이 있으면 스탑
@@ -179,15 +185,43 @@ AFRAME.registerComponent('step-ctrl', {
                 isNeedOutherAnim = false;
 
                 if (stepIdx === 0) { // 안녕하세요요
-                    car.setAttribute('animation', {property: 'position', to: {x: 0, y: 0, z: 0}, dur: 4000, easing: 'easeInOutCubic', loop: false})
-                    car.setAttribute('animation-mixer', { clip: 'Wheel_Rotate', loop: 'once' })
-                    animInterval = setTimeout(() => {
-                        car.setAttribute('animation-mixer', { clip: 'Open_Door', loop: 'once'});
-                        rabbit.setAttribute('animation-mixer', { clip: 'Wave_goodbye', loop: 'once' })
-                        isNeedRabbitIdle = true;
-                    }, 4000)
+                    rabbit.removeAttribute('animation-mixer');
+                    if(isFirstTime){
+                        isFirstTime = false; 
+                        rabbit.setAttribute('animation-mixer', { 
+                            clip: 'Idle',
+                            loop: 'repeat', 
+                            repetitions: 'Infinity', 
+                            timeScale: 1,
+                            clampWhenFinished : true,
+                            crossFadeDuration: 0.4
+                        })
+                        car.setAttribute('animation', {property: 'position', to: {x: 0, y: 0, z: 0}, dur: 4000, easing: 'easeInOutCubic', loop: false})
+                        car.setAttribute('animation-mixer', { clip: 'Wheel_Rotate', loop: 'once' })
+    
+                        animInterval = setTimeout(() => {
+                            car.setAttribute('animation-mixer', { clip: 'Open_Door', loop: 'once'});
+                            rabbit.setAttribute('animation-mixer', { 
+                                clip: 'Wave_goodbye', 
+                                loop: 'repeat', 
+                                startAt: 0,
+                                timeScale: 1,
+                                crossFadeDuration: 0.4
+                            })
+                            delightCount = 1
+                        }, 4000)
+                    } else {
+                        rabbit.setAttribute('animation-mixer', {
+                                clip: 'Wave_goodbye', 
+                                loop: 'repeat', 
+                                startAt: 0,
+                                timeScale: 1,
+                                crossFadeDuration: 0.4
+                        })
+                        delightCount = 1
+                    }
                 } else if (stepIdx === 1) { // 「갓생살기 with 펀드」란?
-                    rabbit.setAttribute('animation-mixer', {clip: 'Joy', loop: 'repeat', repetitions: 3, crossFadeDuration: 0.4 })
+                    rabbit.setAttribute('animation-mixer', {clip: 'Joy', loop: 'repeat', repetitions: 2, crossFadeDuration: 0.4 })
                     isNeedRabbitIdle = true;
                 } else if (stepIdx === 2) { // 펀드신규 이벤트
                     rabbit.setAttribute('animation-mixer', { clip: 'Pride', loop: 'repeat', repetitions : 2, crossFadeDuration: 0.4})
@@ -195,7 +229,7 @@ AFRAME.registerComponent('step-ctrl', {
 
                 } else if (stepIdx === 3) { // 모든 상품이 대상은 아니고
                     rabbit.setAttribute('animation-mixer', { clip: 'Surprise', loop: 'once', timeScale: 0.25, crossFadeDuration: 0.4 })
-                    isNeedOutherAnim = true;
+                    isNeedRabbitIdle = true;
 
                 } else if (stepIdx === 4) {
                     rabbit.setAttribute('animation-mixer', { clip: 'Gift_01', loop: 'once', crossFadeDuration: 0.4 })
@@ -221,18 +255,16 @@ AFRAME.registerComponent('step-ctrl', {
                         })
                         soundEffect.play()
                     }
-              
                 } else if (stepIdx === 8) { // 감사합니다
-                    rabbit.setAttribute('animation-mixer', { clip: 'Delight',  loop: 'repeat', repetitions : 2 , crossFadeDuration: 0.4})
-                    isNeedOutherAnim = true;
+                    rabbit.setAttribute('animation-mixer', {
+                        clip: 'Wave_goodbye', 
+                        loop: 'repeat', 
+                        startAt: 0,
+                        timeScale: 1,
+                        repetitions: 'Infinity', 
+                    })
+                    delightCount = 1
                 }
-
-                // setTimeout(() => {
-                //   // this.data.isLerping = false
-                //   // rabbit.setAttribute('animation-mixer', {clip: 'idle', loop: 'repeat',  })
-                //   // this.data.currPosIdx = ++this.data.currPosIdx > 5 ? 0 : this.data.currPosIdx
-                //   // console.log(this.data.positions[this.data.currPosIdx])
-                // }, 2000)
 
                 if (stepIdx === MAX_STEP_LEN) {
                   stepIdx = -1
@@ -260,13 +292,34 @@ AFRAME.registerComponent('step-ctrl', {
             //     }
             // })
 
-            interval = setTimeout(() => {
-                userClickHandler()
-            }, 3000)
-
-
             // ---------- Reset ----------
             subtitle.onclick = userClickHandler
+
+        // arReady event triggered when ready
+        sceneEl.addEventListener("arReady", (event) => {
+            console.log("MindAR is ready")
+            // interval = setTimeout(() => {
+            //     userClickHandler()
+            // }, 3000)
+        });
+        // // arError event triggered when something went wrong. Mostly browser compatbility issue
+        // sceneEl.addEventListener("arError", (event) => {
+        //     // console.log("MindAR failed to start")
+        // });
+        // // detect target found
+        exampleTarget.addEventListener("targetFound", event => {
+            console.log("target found");
+            guideDiv.style.display = 'none';
+            if (isFirstTime) {
+                interval = setTimeout(() => {
+                    userClickHandler()
+                }, 2000)
+            }
+        });
+// // detect target lost
+// exampleTarget.addEventListener("targetLost", event => {
+//     console.log("target lost");
+// });
 
             // tooltipBox.addEventListener('click', () => {
             //     // console.log('[app.js] tooltipBox Click  : ')

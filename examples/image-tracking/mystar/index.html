@@ -2,126 +2,149 @@
  Basic example
 -->
 <html>
-  <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    
-    <script src="https://aframe.io/releases/1.4.1/aframe.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/stats.js/16/Stats.min.js"></script>
-    <script src="../../../../../dist/mindar-image-aframe-1280.prod.js" type="module"></script>
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.1/howler.min.js"></script> <!-- Audio -->
-    <script src="https://unpkg.com/aframe-slice9-component/dist/aframe-slice9-component.min.js"></script> <!-- tooltip -->
-    <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras/dist/aframe-extras.min.js"></script> <!-- animation-mixer -->
 
-      <!-- stylesheet / css -->
-    <link rel="stylesheet" type="text/css" href="./src/subtitle.css">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"> -->
 
-    <!-- 모듈로 받아올 것 -->
-    <!-- <script type="module" src='./src/aframe-gif-shader.js'></script> -->
-    <script type='text/javascript' src='./src/step-ctrl.js'></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/stats.js/16/Stats.min.js"></script>
+  <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.1/howler.min.js"></script> <!-- Audio -->
+  <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@7.0.0/dist/aframe-extras.min.js"></script>
+  <!-- animation-mixer -->
+  <script src="../../../../../dist/mindar-image-aframe-1280.prod.js" type="module"></script>
 
-    <script>
-      AFRAME.registerComponent('cloak', {
-         init: function() {
-           let geometry = new THREE.BoxGeometry(1, 1, 1)
-          //  geometry.faces.splice(4, 2)
-            let material = new THREE.MeshBasicMaterial({
-               colorWrite: false
-            })
-            let mesh = new THREE.Mesh(geometry, material)
-            mesh.scale.set(1.1, 1.1, 1.1)
-            this.el.object3D.add(mesh)
-         }
-      })
-    </script>
+  <!-- tooltip -->
+  <!-- <script src="https://unpkg.com/aframe-slice9-component/dist/aframe-slice9-component.min.js"></script> -->
 
-    <style>
-      body {
-        margin: 0;
+  <!-- stylesheet / css -->
+  <link rel="stylesheet" type="text/css" href="../../assets/src/subtitle.css">
+
+  <!-- 모듈로 받아올 것 -->
+  <!-- <script type="module" src='./src/aframe-gif-shader.js'></script> -->
+  <script type='text/javascript' src='../../assets/src/step-ctrl.js'></script>
+
+  <script>
+    AFRAME.registerComponent('cloak', {
+      init: function () {
+        let geometry = new THREE.BoxGeometry(1, 1, 1)
+        //  geometry.faces.splice(4, 2)
+        let material = new THREE.MeshBasicMaterial({
+          colorWrite: false
+        })
+        let mesh = new THREE.Mesh(geometry, material)
+        mesh.scale.set(1.1, 1.1, 1.1)
+        this.el.object3D.add(mesh)
       }
-      .example-container {
-        overflow: hidden;
-        position: absolute;
-        width: 100%;
-        height: 100%;
-      }
-      #example-scanning-overlay {
-      }
-      #example-scanning-overlay.hidden {
-        display: none;
-      }
-    </style>
-  </head>
+    })
+  </script>
 
-  <body>
-    <div class="example-container">
-      <a-scene 
-        mindar-image="imageTargetSrc: ../assets/kbbank-example/kbbank.mind; 
+  <style>
+    body {
+      margin: 0;
+    }
+
+    .example-container {
+      overflow: hidden;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+    }
+
+    #example-scanning-overlay {}
+
+    #example-scanning-overlay.hidden {
+      display: none;
+    }
+  </style>
+</head>
+<!--  -->
+<body>
+  <div class="example-container">
+    <a-scene mindar-image="imageTargetSrc: ../assets/kbbank-example/kbbank.mind; 
         showStats: true; 
         filterMinCF: 0.0001; filterBeta: 0.001; warmupTolerance: 5; missTolerance: 5;
-        uiError:no; uiLoading:no; uiScanning: #bank_trans" 
-        loading-screen="enabled: false; dotsColor: #ffbc50; backgroundColor: #60584c"
-        embedded color-space="sRGB" 
-        renderer="colorManagement: true, physicallyCorrectLights" 
-        vr-mode-ui="enabled: false" 
-        device-orientation-permission-ui="enabled: false"
-        gesture-detector
+        uiError:no; uiLoading:no; uiScanning: #bank_trans"
+      loading-screen="enabled: false; dotsColor: #ffbc50; backgroundColor: #60584c" embedded color-space="sRGB"
+      renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false"
+      device-orientation-permission-ui="enabled: false" 
+      step-ctrl
       >
-        <a-assets>
-          <img id="tom" src=" https://stemkoski.github.io/AR-Examples/images/tiles.jpg">
-          <img id="bank_trans" src="../../assets/images/kbBank_trans.png">
-          <img id="clickGif" src="../../assets/images/click-hand-3d.gif">
-          <img id="tooltipImg" src="../../assets/images/tooltip_ol35.png">
-          
-          <img id="card" src="../assets/card-example/card.png"/>
-          <a-asset-item id="avatarModel" src="../assets/card-example/softmind/scene.gltf"></a-asset-item>
-          
-          <!-- <a-asset-item id="supporter" src="../../assets/models/ar_taewon.glb"></a-asset-item> -->
-          <!-- <a-asset-item id="bibi" src="../../assets/models/bibi.glb"></a-asset-item> -->
-          <a-asset-item id="rabbit" src="../../assets/models/rabbit.glb"></a-asset-item>
-          <a-asset-item id="foodtrailer" src="../../assets/models/Car_Old_GLB_UpdateRotate.glb"></a-asset-item>
-        </a-assets>
+      <a-assets>
+        <!-- <img id="tom" src=" https://stemkoski.github.io/AR-Examples/images/tiles.jpg"> -->
 
-        <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
+        <a-asset-item id="treeModel" src="../../assets/models/tree1.glb"></a-asset-item>
+        <a-mixin id="tree" position="0 3 0"
+          animation="property: object3D.position.y; to: 0; dur: 800; easing: easeOutCubic" gltf-model="#treeModel"
+          scale="2.5 2.5 2.5"></a-mixin>
 
-        <a-entity mindar-image-target="targetIndex: 0">
-         
-          <!-- Debug Plane -->
-          <a-entity
-            geometry="primitive: plane"
-            position="0 0 0" height="0.552" width="1" rotation="0 0 0" 
-            material="opacity: 0.5; transparent: true">
-          </a-entity>
-    
-          <a-entity light="type: hemisphere;  intensity: 0.75; color: 0xffffff; groundColor: 0x444444;" position="0, 20, 10"></a-entity>
-          <a-entity light="type: directional; intensity: 0.75; color: 0xffffff;" color="0xffffff" position="0, 20, 10"></a-entity>
-       
-          <a-box position='1 0 0' material='src:#tom; opacity: 1; color : grey;  side: back' cloak></a-box>
+          <!-- <a-asset-item id="milkModel" src="../../assets/models/milk_delivery.glb"></a-asset-item> -->
+        <a-asset-item id="rabbitModel" src="../../assets/models/Rabbit.glb"></a-asset-item>
+        <a-asset-item id="carModel" src="../../assets/models/car/car.gltf"></a-asset-item>
+      </a-assets>
 
-          <a-entity position="0 -0.2 0.2" scale="0.15 0.15 0.15">
-            <a-gltf-model src="#foodtrailer"></a-gltf-model>
-            <a-gltf-model step-ctrl position="0 1.2 0" scale="0.85 0.85 0.85" src="#rabbit"></a-gltf-model>
-            <!-- <a-gltf-model rotation="0 0 0" position="0 -0.2 0.2" scale="1 1 1" src="#bibi">
-            <a-gltf-model rotation="0 0 0" position="0 -0.2 0.2" scale="1 1 1" src="#bibi"> -->
-              
-            <!-- <a-entity id="objects" scale="0.2 0.2 0.2" position="0 0 -1" shadow>
-              <a-box position="-1 0.5 1" rotation="0 45 0" color="#4CC3D9"></a-box>
-              <a-sphere position="0 1.25 -1" radius="1.25" color="#EF2D5E"></a-sphere>
-              <a-cylinder position="1 0.75 1" radius="0.5" height="1.5" color="#FFC65D"></a-cylinder>
-            </a-entity>
-          </a-entity> -->
+      <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
-          <!-- <a-entity id ='tooltipBox' class="cantap" scale="0.5 0.5 0.5" position="-0.105 0.018 0.002" slice9="color:red; width: 0.35; height: 0.4; left: 20; right: 43; top: 20; bottom: 43; src: #tooltipImg" ></a-entity>
-          <a-entity id='clickCursor' position="0.25 -0.445 0.004" geometry="primitive:plane;width:0.16;height:0.16;" material="shader:gif; src:#clickGif; alphaTest:0.5"></a-entity> -->
+      <a-entity id="example-target" mindar-image-target="targetIndex: 0">
+
+        <!-- Debug Plane -->
+        <!-- <a-entity geometry="primitive: plane" position="0 0 0" height="0.552" width="1" rotation="0 0 0"
+          material="opacity: 0.5; transparent: true">
+        </a-entity> -->
+
+        <a-entity light="type: hemisphere;  intensity: 1; color: #ffffff; groundColor: #444444;" position="0, 20, 10"></a-entity>
+        <a-entity light="type: directional; intensity: 1; color: #ffffff;" color="#ffffff" position="0, 20, 10"></a-entity>
         
-          <!-- <a-plane color="blue" opaciy="0.5" position="0 0 0" height="0.552" width="1" rotation="0 0 0" ></a-plane> -->
-          <!-- <a-plane src="#card" position="0 0 0" height="0.552" width="1" rotation="0 0 0"></a-plane> -->
+        <a-entity position="0 -0.5 0.2" scale="0.2 0.2 0.2">
+        
+          <a-box position='6 2.5 0' scale="5 5 5" material='opacity: 0; color : grey;  side: back' cloak></a-box>
 
+          <a-gltf-model id="car" src="#carModel" position="7 0 0">
+            <a-gltf-model id="rabbit" src="#rabbitModel" position="0 1.2 0" scale="0.85 0.85 0.85"
+              animation-mixer="clip: idle; loop: repeat; crossFadeDuration: 0.4; clampWhenFinished : true; startAt: 0"></a-gltf-model>
+          </a-gltf-model>
+  
+          <a-entity scale="0.2 0.2 0.2" rotation="0 90 0" > 
+            <a-entity id="logo">
+            
+              <a-entity>
+                <a-plane animation="property: object3D.position.y; to: 0; dur: 1600; easing: easeOutCubic" width="30"
+                  height="30" color="#249889" rotation="-90 0 0" position="0 -40 0"></a-plane>
+              </a-entity>
+        
+              <a-entity position="-10 0.2 -10">
+                <a-entity id="tree" mixin="tree" animation="delay: 650" ></a-entity>
+              </a-entity>
+              <a-entity position="-10 0.2 6">
+                <a-entity mixin="tree" animation="delay: 400" ></a-entity>
+              </a-entity>
+              <a-entity position="10 0.2 10">
+                <a-entity mixin="tree" animation="delay: 600" </a-entity>
+              </a-entity>
+  
+            </a-entity>
         </a-entity>
-      </a-scene>
-    </div>
-    <div id='subtitleBtn'  class='subtitle'>
-      <div id="sub">미리 작성 서비스 - 입금 편</div>
-    </div>
-  </body>
+    </a-scene>
+  </div>
+
+  <div id="guidePanel" class="covering-panel">
+    <!-- <h5 style="color:white"></h5> -->
+    <h3></h3>
+    <h3></h3>
+   <h2 style="color:white;  text-shadow:
+      -1px -1px 0 #000,
+      1px -1px 0 #000,
+      -1px 1px 0 #000,
+      1px 1px 0 #000;">KB국민은행을 찾아주세요
+      </h2>
+    <h3></h3>
+    <img width="100%" height="auto" src="../../assets/images/kbBank_trans.png" style="opacity : 0.7; pointer-events: none">
+  </div>
+
+  <div id='subtitleBtn' class='subtitle'>
+    <div id="sub">안녕하세요</div>
+  </div>
+</body>
+
 </html>
