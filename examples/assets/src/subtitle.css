@@ -1,3 +1,13 @@
+@font-face {
+  font-family: 'KBFGDisplayM';
+  src: url("../fonts/KBFGDisplayM.woff2") format("woff2"),
+    url("../ffonts/opensans-regular-webfont.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+body{font-family:'KB폰트', 'KBfont', KBFGDisplayM}
+
 .subtitle {
     position: absolute;
   
@@ -19,7 +29,7 @@
   
     color: rgb(96, 88, 76);
     
-    font-size: 200%;
+    font-size: 160%;
     font-weight: bold;
     text-align: center;
   

@@ -39,18 +39,19 @@ AFRAME.registerComponent('step-ctrl', {
                 
                 // 안녕하세요
                 '안녕하세요',
-                '「갓생살기 with 펀드」, 펀드와 함께 재테크 목표달성을 위한 생활을 시작해보자!',
+                '「갓생살기 with 펀드」\n펀드와 함께 재테크\n목표 달성을 시작해보자!',
                 '5월 2일부터 6월 30일까지!',
-                '참여운용사 상품을 가입했을때만 이벤트 대상이 된답니다!', 
-                '임의식펀드 5백만원이상 또는 적립식펀드 30만원 이상 1,623명을 추첨!',
-                ' 임의식펀드 5천만원이상 또는 적립식펀드 1백만원이상 510명을 추첨!',  
-                '연금저축펀드 TDF상품을 가입한고객 중 100명을 추첨!',  
-                '펀드 신규고객 총 2233명을 추첨 경품을 드리는 펀드신규이벤트!', 
+                '참여운용사 상품을 가입했을\n때만 이벤트 대상이 된답니다!', 
+                '임의식펀드 5백만원 이상\n적립식펀드 30만원 이상\n1,623명을 추첨!',
+                ' 임의식펀드 5천만원 이상\n적립식펀드 1백만원 이상\n510명을 추첨!',  
+                '연금저축펀드 TDF상품을\n가입한 고객 100명을 추첨!',  
+                '펀드 신규고객 2233명을\n추첨하여 경품을 드리는\n펀드신규이벤트!', 
                 '감사합니다.'
             ]
             const subtitle = document.getElementById('subtitleBtn')
             subtitle.innerText = '안녕하세요'
-
+            subtitle.style
+            
             const sceneEl = document.querySelector('a-scene');
             const exampleTarget = document.querySelector('#example-target');
             // const arSystem = sceneEl.systems["mindar-image-system"];
@@ -200,7 +201,7 @@ AFRAME.registerComponent('step-ctrl', {
                         car.setAttribute('animation-mixer', { clip: 'Wheel_Rotate', loop: 'once' })
     
                         animInterval = setTimeout(() => {
-                            car.setAttribute('animation-mixer', { clip: 'Open_Door', loop: 'once'});
+                            car.setAttribute('animation-mixer', { clip: 'Open_Door', loop: 'once', clampWhenFinished : true });
                             rabbit.setAttribute('animation-mixer', { 
                                 clip: 'Wave_goodbye', 
                                 loop: 'repeat', 
