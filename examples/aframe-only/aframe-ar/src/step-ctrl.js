@@ -19,8 +19,6 @@ AFRAME.registerComponent('step-ctrl', {
             let delightCount = -1;
             const MAX_STEP_LEN = 8;
 
-            const clapSound = 'clap'
-
             const car = document.getElementById('car')
             const rabbit = document.getElementById('rabbit')
 
@@ -197,49 +195,71 @@ AFRAME.registerComponent('step-ctrl', {
                             clampWhenFinished : true,
                             crossFadeDuration: 0.4
                         })
-                        document.getElementById('rabbitCon').setAttribute('animation-mixer', { 
-                            clip: 'animation', 
-                            loop: 'repeat', 
-                            startAt: 0,
-                            timeScale: 1,
-                            crossFadeDuration: 0.4,
-                            clampWhenFinished : true
-                        })
 
-                        car.setAttribute('animation', {property: 'position', to: {x: 0, y: 0, z: 0}, dur: 5000, easing: 'easeInOutCubic', loop: false})
+                        car.setAttribute('animation__position', {property: 'position', to: {x: -4, y: 0, z: 0}, dur: 4000, easing: 'easeInOutCubic', loop: false})
+                        // car.setAttribute('animation__scale', {property: 'scale', to: {x: 0.8, y: 0.8, z: 0.8}, dur: 8000, easing: 'easeInOutCubic', loop: false})
                         car.setAttribute('animation-mixer', { clip: 'Wheel_Rotate', loop: 'once' })
                         
                         animInterval = setTimeout(() => {
                             car.setAttribute('animation-mixer', { clip: 'Open_Door', loop: 'once', clampWhenFinished : true});
-                            rabbit.setAttribute('animation-mixer', { 
-                                clip: 'Wave_goodbye', 
-                                loop: 'repeat', 
+                          
+                            rabbit.setAttribute('animation-mixer', {
+                                clip: 'Walk',
+                                loop: 'repeat',
                                 startAt: 0,
                                 timeScale: 1,
-                                crossFadeDuration: 0.4,
-                                clampWhenFinished : true
+                                crossFadeDuration: 0.4
                             })
-                            delightCount = 1
+                            rabbit.setAttribute('animation__rotation', {property: 'rotation', to: {x: 0, y: 90, z: 0}, dur: 2000, easing: 'linear', loop: false})
+                           
+                            
+                            setTimeout(() => {
+                                rabbit.setAttribute('animation__position', {property: 'position', to: {x: 2.7, y: 1, z: 0}, dur: 3000, easing: 'linear', loop: false})
+                            }, 500)
 
-                            document.getElementById('rabbitCon').setAttribute('animation-mixer', { 
-                                clip: 'animation', 
-                                loop: 'repeat', 
-                                startAt: 0,
-                                timeScale: 1,
-                                crossFadeDuration: 0.4,
-                                clampWhenFinished : true
-                            })
-                        }, 5000)
+                            // setTimeout(() => {
+                            //     rabbit.setAttribute('animation__position', {property: 'position', to: {x: 3, y: 2, z: 0}, dur: 500, easing: 'easeInCubic', loop: false})
+                            // }, 2500)
+
+                            setTimeout(() => {
+                                rabbit.setAttribute('animation__position', {property: 'position', to: {x: 4, y: 0, z: 0}, dur: 1000, easing: 'easeInExpo', loop: false})
+                                // rabbit.setAttribute('animation__scale', {property: 'scale', to: {x: 1.7, y: 1.7, z: 1.7}, dur: 1000, easing: 'easeInCubic', loop: false})
+                            }, 3500)
+
+
+                            setTimeout(() => {
+                                car.setAttribute('animation__position', {property: 'position', to: {x: -12, y: 0, z: 0}, dur: 4000, easing: 'easeInOutCubic', loop: false})
+                                
+                                rabbit.setAttribute('animation-mixer', {
+                                    clip: 'Idle',
+                                    loop: 'repeat',
+                                    startAt: 0,
+                                    timeScale: 1,
+                                    crossFadeDuration: 0.4
+                                })
+
+                                rabbit.setAttribute('animation__position', {property: 'position', to: {x: 12, y: 0, z: 0}, dur: 4000, easing: 'easeInOutCubic', loop: false})
+
+                                rabbit.setAttribute('animation__rotation', {property: 'rotation', to: {x: 0, y: 0, z: 0}, dur: 1000, easing: 'easeInOutCubic', loop: false})
+                            }, 5000)
+
+                            setTimeout(() => {
+
+                                 rabbit.setAttribute('animation__scale', {property: 'scale', to: {x: 1.7, y: 1.7, z: 1.7}, dur: 1000, easing: 'easeInCubic', loop: false})
+                                
+                                // rabbit.setAttribute('animation__scale', {property: 'scale', to: {x: 1.7, y: 1.7, z: 1.7}, dur: 1000, easing: 'easeInCubic', loop: false})
+                            }, 6000)
+
+                        }, 4000)
                     } else {
                         rabbit.setAttribute('animation-mixer', {
-                                clip: 'Wave_goodbye', 
+                                clip: 'Wave_google', 
                                 loop: 'repeat', 
                                 startAt: 0,
                                 timeScale: 1,
                                 crossFadeDuration: 0.4
                         })
                         delightCount = 1
-
 
                     }
                 } else if (stepIdx === 1) { // 「갓생살기 with 펀드」란?
@@ -254,11 +274,11 @@ AFRAME.registerComponent('step-ctrl', {
                     isNeedRabbitIdle = true;
 
                 } else if (stepIdx === 4) {
-                    rabbit.setAttribute('animation-mixer', { clip: 'Gift_01', loop: 'once',timeScale: 0.25, crossFadeDuration: 0.4 })
+                    rabbit.setAttribute('animation-mixer', { clip: 'Gift_01', loop: 'once',timeScale: 1, crossFadeDuration: 0.4 })
                     isNeedRabbitIdle = true;
 
                 } else if (stepIdx === 5) {
-                    rabbit.setAttribute('animation-mixer', { clip: 'Gift_02', loop: 'once', crossFadeDuration: 0.4 })
+                    rabbit.setAttribute('animation-mixer', { clip: 'Gift_02', loop: 'once', timeScale: 1, scrossFadeDuration: 0.4 })
                     isNeedOutherAnim = true;
 
                 } else if (stepIdx === 6) {

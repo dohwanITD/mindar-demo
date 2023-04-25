@@ -13,17 +13,14 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.1/howler.min.js"></script> <!-- Audio -->
   <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@7.0.0/dist/aframe-extras.min.js"></script>
   <!-- animation-mixer -->
-  <script src="../../../../../dist/mindar-image-aframe-1280.prod.js" type="module"></script>
+  <script src="./src/mindar-image-aframe-1280.prod.js" type="module"></script>
 
   <!-- tooltip -->
   <!-- <script src="https://unpkg.com/aframe-slice9-component/dist/aframe-slice9-component.min.js"></script> -->
 
   <!-- stylesheet / css -->
-  <link rel="stylesheet" type="text/css" href="../../assets/src/subtitle.css">
-
-  <!-- 모듈로 받아올 것 -->
-  <!-- <script type="module" src='./src/aframe-gif-shader.js'></script> -->
-  <script type='text/javascript' src='../../assets/src/step-ctrl.js'></script>
+  <link rel="stylesheet" type="text/css" href="./src/subtitle.css">
+  <script type='text/javascript' src='./src/step-ctrl.js'></script>
 
   <script>
     AFRAME.registerComponent('cloak', {
@@ -69,7 +66,7 @@
         uiError:no; uiLoading:no; uiScanning: #bank_trans"
       loading-screen="enabled: false; dotsColor: #60584c; backgroundColor: #60584c"
       embedded color-space="sRGB"
-      renderer="colorManagement: true, " vr-mode-ui="enabled: false"
+      renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false"
       device-orientation-permission-ui="enabled: false" 
       gltf-model="basisTranscoderPath:https://cdn.jsdelivr.net/npm/super-three/examples/js/libs/basis/;" 
       step-ctrl
@@ -77,16 +74,13 @@
       <a-assets>
         <!-- <img id="tom" src=" https://stemkoski.github.io/AR-Examples/images/tiles.jpg"> -->
 
-        <a-asset-item id="treeModel" src="../../assets/models/tree1.glb"></a-asset-item>
+        <a-asset-item id="treeModel" src="./assets/models/tree1.glb"></a-asset-item>
         <a-mixin id="tree" position="0 3 0"
           animation="property: object3D.position.y; to: 0; dur: 800; easing: easeOutCubic" gltf-model="#treeModel"
           scale="2.5 2.5 2.5"></a-mixin>
 
-          <a-asset-item id="rabbitCon" src="../../assets/models/confetti.glb"></a-asset-item>
-          <a-asset-item id="rabbitWave" src="../../assets/models/wawe goodbye.glb"></a-asset-item>
-          <a-asset-item id="rabbitModel" src="../../assets/models/rabbit_0424_etc1s.glb"></a-asset-item>
-          <!-- <a-asset-item id="milkModel" src="../../assets/models/milk_delivery.glb"></a-asset-item> -->
-          <a-asset-item id="carModel" src="../../assets/models/car_0424/car_etc1s.glb"></a-asset-item>
+          <a-asset-item id="rabbitModel" src="./assets/models/rabbit_0424_etc1s.glb"></a-asset-item>
+          <a-asset-item id="carModel" src="./assets/models/car_0424/car_etc1s.glb"></a-asset-item>
       </a-assets>
 
       <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
@@ -101,28 +95,19 @@
         <a-entity light="type: hemisphere;  intensity: 1; color: #ffffff; groundColor: #444444;" position="0, 20, 10"></a-entity>
         <a-entity light="type: directional; intensity: 1; color: #ffffff;" color="#ffffff" position="0, 20, 10"></a-entity>
         
-        <a-entity position="0 -0.5 0.2" scale="0.2 0.2 0.2">
-        
-          <a-box position='6 2.5 0' scale="5 5 5" material='opacity: 0; color : grey;  side: back' cloak></a-box>
+        <a-entity position="0 -0.5 0.2" scale="0.25 0.25 0.25">
 
+          <!-- Before Car -->
+          <a-box id="maskBox" position='6 2.5 0' scale="5 5 5" material='opacity: 0; color : grey;  side: back' cloak></a-box>
 
-          <a-gltf-model src="#rabbitWave" position="0 1.2 0" scale="0.85 0.85 0.85"
-          animation-mixer="clip: wawegoodbye; loop: once; crossFadeDuration: 0.4; clampWhenFinished : true; startAt: 0"
-          ></a-gltf-model>
-
-          <a-gltf-model  src="#rabbitCon" position="1 1.2 0" scale="0.85 0.85 0.85"
-          ></a-gltf-model>
-
-          <a-gltf-model id="car" src="#carModel" position="7 -2 0">
+          <!-- After Car -->
+          <a-gltf-model id="car" src="#carModel" position="7 0 0">
             <a-gltf-model id="rabbit" src="#rabbitModel" position="0 1.2 0" scale="0.85 0.85 0.85"
               animation-mixer="clip: idle; loop: repeat; crossFadeDuration: 0.4; clampWhenFinished : true; startAt: 0"></a-gltf-model>
-
-         
           </a-gltf-model>
   
-          <a-entity scale="0.2 0.2 0.2" rotation="0 90 0" > 
+          <!-- <a-entity scale="0.2 0.2 0.2" rotation="0 90 0" > 
             <a-entity id="logo">
-            
               <a-entity>
                 <a-plane animation="property: object3D.position.y; to: 0; dur: 1600; easing: easeOutCubic" width="30"
                   height="30" color="#249889" rotation="-90 0 0" position="0 -40 0"></a-plane>
@@ -137,10 +122,11 @@
               <a-entity position="10 0.2 10">
                 <a-entity mixin="tree" animation="delay: 3600"></a-entity>
               </a-entity>
-  
-            </a-entity>
-        </a-entity>
-    </a-scene>
+            </a-entity> -->
+
+          </a-entity>
+
+        </a-scene>
   </div>
 
   <div id="guidePanel" class="covering-panel">
@@ -154,11 +140,14 @@
       1px 1px 0 #000;">KB국민은행을 찾아주세요
       </h2>
     <h3></h3>
-    <img width="100%" height="auto" src="../../assets/images/kbBank_trans.png" style="opacity : 0.7; pointer-events: none">
+    <img width="100%" height="auto" src="./assets/images/kbBank_trans.png" style="opacity : 0.7; pointer-events: none">
   </div>
 
   <div id='subtitleBtn' class='subtitle'>
-    <div id="sub"  >안녕하세요</div>
+    <div id="sub">「갓생살기 with 펀드」</div>
+  </div>
+  <div id="click-hand" class="hand">
+    <img src="./assets/images/click-hand-3d.gif" style="width:48px;height:48px;">
   </div>
 </body>
 
