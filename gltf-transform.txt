@@ -1,0 +1,11 @@
+
+gltf-transform resize carrot.glb carrot-resize.glb --width 512 --height 512
+gltf-transform etc1s carrot-resize.glb carrot-resize-etc1s.glb --quality 255 --verbose
+
+
+gltf-transform resize Grass-lawn.glb Grass-lawn-resize.glb --width 512 --height 512
+gltf-transform etc1s Grass-lawn-resize.glb Grass-lawn-resize-etc1s.glb --quality 255 --verbose
+
+
+gltf-transform etc1s car_042516.glb car-resize-etc1s.glb --quality 255 --verbose
+gltf-transform etc1s rabbit_042615.glb rabbit-resize-etc1s.glb --quality 255 --verbose

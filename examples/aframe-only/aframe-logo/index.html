@@ -25,6 +25,18 @@
         }
       }
     });
+
+    AFRAME.registerComponent("foo", {
+      init: function () {
+        this.el.addEventListener("loaded", evt => {
+          try {
+            this.el.sceneEl.enterAR();
+          } catch (error) {
+            alert(error)
+          }
+        })
+      }
+    });
   </script>
 </head>
 

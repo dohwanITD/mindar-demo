@@ -23,8 +23,6 @@ AFRAME.registerComponent('step-ctrl', {
 
             const MAX_STEP_LEN = 8;
 
-            const clapSound = 'clap'
-
             const car = document.getElementById('car')
             const rabbit = document.getElementById('rabbit')
 
@@ -50,12 +48,13 @@ AFRAME.registerComponent('step-ctrl', {
                 ' 임의식펀드 5천만원 이상\n적립식펀드 1백만원 이상\n510명을 추첨!',  
                 '연금저축펀드 TDF상품을\n가입한 고객 100명을 추첨!',  
                 '펀드 신규고객 2233명을\n추첨하여 경품을 드리는\n펀드신규이벤트!', 
-                '감사합니다.'
+                '감사합니다'
             ]
             const subtitle = document.getElementById('subtitleBtn')
-            subtitle.innerText = '「갓생살기 with 펀드」!'
+            subtitle.innerText = '「갓생살기 with 펀드」'
             
             const clickHand = document.getElementById('click-hand')
+            clickHand.style.display = 'none'
 
             const sceneEl = document.querySelector('a-scene');
             const exampleTarget = document.querySelector('#example-target');
@@ -107,7 +106,7 @@ AFRAME.registerComponent('step-ctrl', {
                 isNeedRabbitIdle = true;
                 console.log("isNeedOutherAnim")
                 rabbit.setAttribute('animation-mixer', {
-                    clip: 'Delight',
+                    clip: 'Deligh',
                     loop: 'repeat',
                     startAt: 0,
                     timeScale: 1,
@@ -135,13 +134,25 @@ AFRAME.registerComponent('step-ctrl', {
             }
         })
 
+        const Http = new XMLHttpRequest();
+
+        const urlLog = 'http://ec2-43-201-69-96.ap-northeast-2.compute.amazonaws.com:8000/api/fund-events/log';
+        const urlEnd = 'http://ec2-43-201-69-96.ap-northeast-2.compute.amazonaws.com:8000/api/fund-events/2/additional-data';
+        const urlData = 'http://ec2-43-201-69-96.ap-northeast-2.compute.amazonaws.com:8000/api/fund-events/log';
+
+        Http.open('GET', urlLog);
+        Http.send();
+        Http.onreadystatechange = (e) => {
+            console.log(Http.responseText);
+        };
+
             // car.addEventListener('animation-finished', () => {
             //     console.log('The car animation is finished!')
             // })
 
 
             // 01: Idle      (Frame Start:  0,         Frame End :  48 )
-            // 02: Delight   (Frame Start: 60,         Frame End : 105 )
+            // 02: Deligh   (Frame Start: 60,         Frame End : 105 )
             // 03: Walk      (Frame Start: 115,        Frame End : 138 )
             // 04: Joy       (Frame Start: 149,        Frame End : 256 )
             // 05: Pride     (Frame Start: 270,        Frame End : 346 )
@@ -170,9 +181,48 @@ AFRAME.registerComponent('step-ctrl', {
                     soundTTS.stop()  // 플레이중인 음원이 있으면 스탑
                     soundTTS = null;
                 }
-                if (stepIdx > 0 && stepIdx < 8) {
+                if (stepIdx > 0 && stepIdx < 9) {
                     soundTTS = new window.Howl({
-                        src: (`../../assets/audios/tts_0${stepIdx -1}.mp3`),
+                        src: (`./assets/audios/tts_0${stepIdx -1}.mp3`),
+                    })
+                    soundTTS.play()
+                } 
+               
+                // ---------- Animation ---------- walk spin point stand bow wave idle break
+                if (animInterval != null) {
+                    clearInterval(animInterval)
+                }
+
+                clickHand.style.display = 'none'
+                if (sequnceInterval != null) {
+                    clearInterval(sequnceInterval)
+                }
+                
+                // const animationMixer = rabbit.getAttribute('animation-mixer')
+                // if (animationMixer) {
+                //     animationMixer.clampWhenFinished = true
+                //     animationMixer.crossFadeDuration = 0.2
+                //     animationMixer.startAt = 0
+                // }
+              
+                isNeedRabbitIdle = false;
+                isNeedOutherAnim = false;
+
+                if (isFirstSequence) return;
+                
+                if (interval !== null) clearInterval(interval)
+                ++stepIdx
+
+                // ---------- Caption ----------
+                subtitle.innerText = captionList[stepIdx]
+                // ---------- Sound ----------
+                if (soundTTS !== null) {
+                    soundTTS.stop()  // 플레이중인 음원이 있으면 스탑
+                    soundTTS = null;
+                }
+                if (stepIdx > 0 && stepIdx < 9) {
+                    soundTTS = new window.Howl({
+                        src: (`./assets/audios/tts_0${stepIdx -1}.mp3`),
                     })
                     soundTTS.play()
                 } 
@@ -212,8 +262,6 @@ AFRAME.registerComponent('step-ctrl', {
                             crossFadeDuration: 0.4
                         })
                       
-                      
-                      
                         car.setAttribute('animation__position', {property: 'position', to: {x: -4, y: 0, z: 0}, dur: 4000, easing: 'easeInOutCubic', loop: false})
                         // car.setAttribute('animation__scale', {property: 'scale', to: {x: 0.8, y: 0.8, z: 0.8}, dur: 8000, easing: 'easeInOutCubic', loop: false})
                         car.setAttribute('animation-mixer', { clip: 'Wheel_Rotate', loop: 'once' })
@@ -229,21 +277,15 @@ AFRAME.registerComponent('step-ctrl', {
                                 crossFadeDuration: 0.4
                             })
                             rabbit.setAttribute('animation__rotation', {property: 'rotation', to: {x: 0, y: 90, z: 0}, dur: 2000, easing: 'linear', loop: false})
-                           
                             
                             setTimeout(() => {
                                 rabbit.setAttribute('animation__position', {property: 'position', to: {x: 2.7, y: 1, z: 0}, dur: 3000, easing: 'linear', loop: false})
                             }, 500)
 
-                            // setTimeout(() => {
-                            //     rabbit.setAttribute('animation__position', {property: 'position', to: {x: 3, y: 2, z: 0}, dur: 500, easing: 'easeInCubic', loop: false})
-                            // }, 2500)
-
                             setTimeout(() => {
-                                rabbit.setAttribute('animation__position', {property: 'position', to: {x: 4, y: 0, z: 0}, dur: 1000, easing: 'easeInExpo', loop: false})
+                                rabbit.setAttribute('animation__position', {property: 'position', to: {x: 4, y: 0, z: 0}, dur: 1000, easing: 'easeOutExpo', loop: false})
                                 // rabbit.setAttribute('animation__scale', {property: 'scale', to: {x: 1.7, y: 1.7, z: 1.7}, dur: 1000, easing: 'easeInCubic', loop: false})
                             }, 3500)
-
 
                             setTimeout(() => {
                                 car.setAttribute('animation__position', {property: 'position', to: {x: -12, y: 0, z: 0}, dur: 4000, easing: 'easeInOutCubic', loop: false})
@@ -257,29 +299,28 @@ AFRAME.registerComponent('step-ctrl', {
                                 })
 
                                 rabbit.setAttribute('animation__position', {property: 'position', to: {x: 12, y: 0, z: 0}, dur: 4000, easing: 'easeInOutCubic', loop: false})
-
                                 rabbit.setAttribute('animation__rotation', {property: 'rotation', to: {x: 0, y: 0, z: 0}, dur: 1000, easing: 'easeInOutCubic', loop: false})
                             }, 5000)
 
                             setTimeout(() => {
-
-                                 rabbit.setAttribute('animation__scale', {property: 'scale', to: {x: 1.7, y: 1.7, z: 1.7}, dur: 1000, easing: 'easeInCubic', loop: false})
-                                
-                                 rabbit.setAttribute('animation-mixer', {clip: 'Wave_goodbye', loop: 'repeat', startAt: 0,timeScale: 1,crossFadeDuration: 0.4})
+                                 rabbit.setAttribute('animation__scale', {property: 'scale', to: {x: 2, y: 2, z: 2}, dur: 1000, easing: 'easeInCubic', loop: false})
+                                 rabbit.setAttribute('animation-mixer', {clip: 'Wave_google', loop: 'repeat', startAt: 0,timeScale: 1,crossFadeDuration: 0.4})
                                 delightCount = 1
-
-                                isFirstSequence = false;
                             }, 6000)
+
+                            setTimeout(() => {
+                               isFirstSequence = false;
+                               clickHand.style.display = 'block'
+                           }, 8000)
 
                         }, 4000)
 
                     } else {
-
-                        rabbit.setAttribute('animation-mixer', {clip: 'Wave_goodbye', loop: 'repeat', startAt: 0,timeScale: 1,crossFadeDuration: 0.4})
+                        rabbit.setAttribute('animation-mixer', {clip: 'Wave_google', loop: 'repeat', startAt: 0,timeScale: 1,crossFadeDuration: 0.4})
                         delightCount = 1
                     }
                 } else if (stepIdx === 1) { // 「갓생살기 with 펀드」란?
-                    rabbit.setAttribute('animation-mixer', {clip: 'Joy', loop: 'repeat', repetitions: 2, crossFadeDuration: 0.4 })
+                    rabbit.setAttribute('animation-mixer', {clip: 'Joy', loop: 'repeat', repetitions: 3, crossFadeDuration: 0.4 })
                     isNeedRabbitIdle = true;
                 } else if (stepIdx === 2) { // 펀드신규 이벤트
                     rabbit.setAttribute('animation-mixer', { clip: 'Pride', loop: 'repeat', repetitions : 2, crossFadeDuration: 0.4})
@@ -290,19 +331,19 @@ AFRAME.registerComponent('step-ctrl', {
                     isNeedRabbitIdle = true;
 
                 } else if (stepIdx === 4) {
-                    rabbit.setAttribute('animation-mixer', { clip: 'Gift_01', loop: 'once', crossFadeDuration: 0.4 })
+                    rabbit.setAttribute('animation-mixer', { clip: 'Gift_01', loop: 'once',  timeScale: 1, crossFadeDuration: 0.4 })
                     isNeedRabbitIdle = true;
 
                 } else if (stepIdx === 5) {
-                    rabbit.setAttribute('animation-mixer', { clip: 'Gift_02', loop: 'once', crossFadeDuration: 0.4 })
+                    rabbit.setAttribute('animation-mixer', { clip: 'Gift_02', loop: 'once', timeScale: 1, crossFadeDuration: 0.4 })
                     isNeedOutherAnim = true;
 
                 } else if (stepIdx === 6) {
-                    rabbit.setAttribute('animation-mixer', { clip: 'Gift_03', loop: 'once', crossFadeDuration: 0.4 })
+                    rabbit.setAttribute('animation-mixer', { clip: 'Gift_03', loop: 'once', timeScale: 1, crossFadeDuration: 0.4 })
                     isNeedRabbitIdle = true;
 
                 } else if (stepIdx === 7) { // 펀드 신규고객 총 2233명
-                    rabbit.setAttribute('animation-mixer', { clip: 'Confetti', loop: 'repeat', repetitions : 4, crossFadeDuration: 0.4})
+                    rabbit.setAttribute('animation-mixer', { clip: 'Confetti', loop: 'repeat', timeScale: 1, repetitions : 4, crossFadeDuration: 0.4})
                     isNeedOutherAnim = true;
                    
                     if (soundEffect !== null) {
@@ -318,10 +359,12 @@ AFRAME.registerComponent('step-ctrl', {
                     delightCount = 1
                 }
 
-                sequnceInterval = setTimeout(() => {
-                    clickHand.style.display = 'block'
-                }, 10000)
-
+                if (stepIdx !== 0){
+                    sequnceInterval = setTimeout(() => {
+                        clickHand.style.display = 'block'
+                    }, 7000)
+                }
+                
                 if (stepIdx === MAX_STEP_LEN) {
                   stepIdx = -1
                 }
@@ -372,10 +415,11 @@ AFRAME.registerComponent('step-ctrl', {
                 }, 2000)
             }
         });
-// // detect target lost
-// exampleTarget.addEventListener("targetLost", event => {
-//     console.log("target lost");
-// });
+
+            // // detect target lost
+            // exampleTarget.addEventListener("targetLost", event => {
+            //     console.log("target lost");
+            // });
 
             // tooltipBox.addEventListener('click', () => {
             //     // console.log('[app.js] tooltipBox Click  : ')
@@ -407,91 +451,3 @@ AFRAME.registerComponent('step-ctrl', {
         // })
     },
 })
-
-
-// Back Up
-// {
-//     // tooltip & clickCursor ----------
-//     const replayBox = document.getElementById('replayBox')
-//     const tooltipBox = document.getElementById('tooltipBox')
-//     const clickCursor = document.getElementById('clickCursor')
-//     replayBox.setAttribute('visible', false)
-//     tooltipBox.setAttribute('visible', false)
-//     clickCursor.setAttribute('visible', false)
-
-//     const corsorY = -0.055
-//     const isBlocking = false
-
-
-//     // 미리작성 이미지
-//     // const prewriteImg = document.getElementById('prewriteImg')
-
-//     // ---------- Image ----------
-//     prewriteImg.removeAttribute('src')
-//     if (stepIdx === 0) {
-//         prewriteImg.setAttribute('src', `#Prewrite_0${stepIdx}`)
-//         this.data.currPosIdx = stepIdx
-//     } else {
-//         prewriteImg.setAttribute('src', `#Prewrite_0${stepIdx - 1}`)
-
-//         if (stepIdx === 5) {
-
-//         } else if (stepIdx <= 7) {
-//             this.data.currPosIdx = stepIdx
-//         } else {
-//             this.data.currPosIdx = stepIdx
-//         }
-//     }
-
-//     const setTooltipContainer = (w, h, tooltipPos, cursorPos) => {
-//         tooltipBox.setAttribute('slice9', { color: 'red', width: w, height: h, left: 20, right: 43, top: 20, bottom: 43, src: '#tooltipImg' })
-//         tooltipBox.setAttribute('position', tooltipPos)  // "-0.105 0.018 0.002"
-//         clickCursor.setAttribute('position', cursorPos)
-//     }
-
-//     // ---------- Caption ----------
-//     if (stepIdx === 0) {
-//         tooltipBox.setAttribute('visible', false)
-//         clickCursor.setAttribute('visible', false)
-//         // subtitle.innerText = '미리작성 서비스 입금편 함께 알아볼까요?'
-//         // 0.25 -0.055
-//     } else if (stepIdx === 1) {
-//         // subtitle.innerText = '먼저 입금 버튼을 눌러주세요!'
-//         // tooltipBox.setAttribute('visible', true)
-//         // clickCursor.setAttribute('visible', true)
-//         setTooltipContainer(0.35, 0.4, { x: -0.105, y: 0.018, z: 0.002 }, { x: -0.105 + 0.04 + 0.05, y: 0.018 + corsorY, z: 0.004 })
-//     } else if (stepIdx === 2) {
-//         tooltipBox.setAttribute('visible', true)
-//         clickCursor.setAttribute('visible', true)
-//         // subtitle.innerText = '원하시는 입금 방법을 선택할 수 있습니다.\n여기서는 한 건 입금을 함께 해보겠습니다!'
-//         setTooltipContainer(0.62, 0.15, { x: -0.06, y: 0.008, z: 0.002 }, { x: -0.06 + 0.095 + 0.05, y: 0.008 + corsorY, z: 0.004 })
-//     } else if (stepIdx === 3) {
-//         // subtitle.innerText = '입금 은행을 선택해보겠습니다. 입금 은행 칸을 눌러주세요!'
-//         setTooltipContainer(0.95, 0.24, { x: 0, y: 0.03, z: 0.002 }, { x: 0.1, y: 0.03 + corsorY, z: 0.004 })
-//     } else if (stepIdx === 4) {
-//         // subtitle.innerText = '받는 분 계좌의 은행을 선택해주세요!'
-//         setTooltipContainer(0.3, 0.27, { x: -0.16, y: 0.064, z: 0.002 }, { x: -0.16 + 0.064 + 0.02, y: 0.06 + corsorY, z: 0.003 })
-//     } else if (stepIdx === 5) {
-//         // subtitle.innerText = '받는 분 계좌번호와 금액을 입력해주세요!'
-//         setTooltipContainer(0.95, 0.38, { x: 0, y: -0.36, z: 0.002 }, { x: 0.2, y: -0.36 + corsorY, z: 0.003 })
-//     } else if (stepIdx === 6) {
-//         // subtitle.innerText = '받는 분 통장 표시와 자필성명을 입력하신 후 작성완료 버튼을 눌러주세요!'
-//         setTooltipContainer(1.05, 0.19, { x: 0, y: -0.395, z: 0.002 }, { x: 0.2, y: -0.395 + corsorY, z: 0.003 })
-//     } else if (stepIdx === 7) {
-//         // subtitle.innerText = '입금 신청서 미리작성이 완료되었습니다!'
-//         replayBox.setAttribute('visible', true)
-//         replayBox.classList.add('cantap')
-//         setTooltipContainer(0.95, 0.28, { x: 0, y: -0.255, z: 0.002 }, { x: 0.05, y: -0.31, z: 0.003 })
-//     } else if (stepIdx >= 8) {
-//         // subtitle.innerText = '입금 신청서 미리작성이 완료되었습니다!'
-//         // setTooltipContainer(0.93, 0.35, {x: 0, y: -0.295, z: 0.002}, {x: 0.25, y: -0.35, z: 0.003})
-//         stepIdx = 0
-//     }
-
-
-//     //   tick(){
-//     //     if (this.data.isLerping) {
-//     //       rabbit.object3D.position.lerp(this.data.positions[this.data.currPosIdx], 0.05)
-//     //     };
-//     //   };
-// }

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+
+<!-- https://sketchfab.com/3d-models/milk-delivery-b41e30c422d943409291050b77364568 milk -->
+
+<!-- https://aframe.io/aframe/examples/test/model/ KTX2 -->
+<!-- https://aframe.io/aframe/examples/animation/generic-logo/ -->
+<!-- https://aframe.io/aframe/examples/test/cursor/ -->
+<!-- https://jsfiddle.net/qbvednom/ -->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <!-- <meta name="viewport" content="width=device-width, initial-scale=1" /> -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+
+  <title>A-Frame Logo</title>
+  <meta name="description" content="A-Frame Logo - A-Frame">
+  <script src="https://aframe.io/releases/1.4.1/aframe.min.js"></script>
+  <script src="https://unpkg.com/aframe-event-set-component@4.2.1/dist/aframe-event-set-component.min.js"></script>
+
+  <script>
+    
+  </script>
+   <style>
+      html,
+      body {
+        margin: 0;
+      }
+      .video {
+        position: absolute;
+        width: 100vw;
+        height: 100vh;
+      }
+  </style>
+</head>
+
+<body>
+  <video
+   autoPlay=true
+   playsInline=true
+   muted=true
+   ref=videoRef
+   class="video"
+   >
+  </video>
+  
+  <a-scene>
+    <a-camera look-controls="enabled: false" wasd-controls ="enabled : false">
+      <a-entity position="0 -1 -5 ">
+        <a-box position="-1 0.5 -3" rotation="0 45 0" color="#4CC3D9"></a-box>
+        <a-sphere position="0 1.25 -5" radius="1.25" color="#EF2D5E"></a-sphere>
+        <a-cylinder position="1 0.75 -3" radius="0.5" height="1.5" color="#FFC65D"></a-cylinder>
+        <a-plane position="0 0 -4" rotation="-90 0 0" width="4" height="4" color="#7BC8A4"></a-plane>
+      </a-entity>
+    <!-- </a-camera> -->
+  </a-scene>
+
+</body>
+<script>
+  const constraints = {
+    video: true
+  };
+  const video = document.querySelector('video');
+  // navigator.mediaDevices.getUserMedia(constraints).then((stream) => { video.srcObject = stream });
+
+  navigator.mediaDevices.getUserMedia({audio:false,video:{facingMode:"environment",width:{ideal:1920},height:{ideal:1080}}}).then((stream) => { video.srcObject = stream });
+</script>
+
+</html>
