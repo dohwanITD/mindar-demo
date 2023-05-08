@@ -92,20 +92,47 @@ Model Information:
       <a-entity light="type: hemisphere;  intensity: 1; color: #ffffff; groundColor: #444444;" position="0, 20, 10"></a-entity>
       <a-entity light="type: directional; intensity: 1; color: #ffffff;" color="#ffffff" position="0, 20, 10"></a-entity>
 
-      <a-camera position="0 0 0" look-controls="enabled: false">
+      <a-camera position="0 0 0" >
         <a-entity position="0 -3 -12">
+
+          
 
           <!-- Before Car, Masking -->
           <a-box position='7 2.5 0' scale="5 5 5" material='opacity: 0; color : grey;  side: back' cloak></a-box>
           <a-box position='-9.5 2.5 0' scale="5 5 5" material='opacity: 0; color : grey;  side: back' cloak></a-box>
-          <a-box position='0 -3 0' scale="7 5 5" material='opacity: 0; color : grey;  side: back' cloak></a-box>
+          <!-- <a-box position='0 -3 0' scale="7 5 5" material='opacity: 0; color : grey;  side: back' cloak></a-box> -->
 
           <!-- Scenes -->
           <a-entity position="0 0 -1.5" shadow>
             
             <!-- Floor -->
-            <a-entity position="0 0 -2">
-              <a-gltf-model id="lawn" src="#lawnModel" scale="15 15 15" position="0 2.2 -2.5"></a-gltf-model>
+            <a-entity position="0 0 -2" rotation="0 0 0">
+              
+              <a-gltf-model id="lawn" src="#lawnModel" scale="15 15 15" position="0 2.2 -2.5">
+              
+                <!-- <a-text id="caption" align="center"  value="「갓생살기 with 펀드」\n펀드와 함께 재테크\n목표 달성을 시작해보자!" color="black" shader="msdf" scale="0.2 0.2 0.2" line-height="50"
+              position="-0.005 -0.23 0.5" opacity = 1 
+              geometry=" primitive: plane; width: 2.6; height: auto; color: #7BC8A4;" 
+              font="https://raw.githubusercontent.com/myso-kr/aframe-fonts-korean/master/fonts/ofl/nanumgothic/NanumGothic-Regular.json"
+              >
+              </a-text> -->
+
+
+                <!-- <a-entity position="0 0.11 0" geometry="opacity : 0; primitive: plane; width: auto; height: auto" 
+                
+                text="anchor: center; shader: msdf; align: center; width: 1.5; color: black; value: 서비스 채험중;
+                font : https://raw.githubusercontent.com/myso-kr/aframe-fonts-korean/master/fonts/ofl/nanumgothic/NanumGothic-Regular.json; ">
+                
+               </a-entity> -->
+                
+               
+                  <!-- <a-entity position="0 0.11 0" geometry="primitive: plane; width: auto; height: auto" text="anchor: center; width: 1.5; color: black; value: [CENTER ANCHOR] Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim ad minim veniam">
+                  </a-entity>
+                  <a-entity position="0 0 0" geometry="primitive: plane; width: auto; height: auto" material="color: #333" 
+                  text="color: yellow; align: left; value: [LEFT ALIGNED]; width: 2; ">
+                  </a-entity> -->
+
+              </a-gltf-model>
               <a-gltf-model id="carrot02" src="#carrotModel02" scale="0.004 0.004 0.004" position="-2.5 0.7 3"
                 rotation="30 90 -72"></a-gltf-model>
               <a-gltf-model id="carrot02" src="#carrotModel02" scale="0.004 0.004 0.004" position="-0.7 0.8 4"
@@ -122,6 +149,7 @@ Model Information:
                 <a-gltf-model id="rabbit" src="#rabbitModel" position="0 1 0" scale="0.85 0.85 0.85"
                   animation-mixer="clip: idle; loop: repeat; crossFadeDuration: 0.4; clampWhenFinished : true; startAt: 0"></a-gltf-model>
               </a-gltf-model>
+        
             </a-entity>
 
           </a-entity>

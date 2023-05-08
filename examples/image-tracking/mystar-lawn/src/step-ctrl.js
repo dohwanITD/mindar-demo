@@ -66,7 +66,7 @@ AFRAME.registerComponent('step-ctrl', {
 
             // BGM
             const soundMain = new window.Howl({
-                src: (`../../assets/audios/Cute_Avalanche_-_RKVC.mp3`),
+                src: (`./assets/audios/hida-maritronica-loop.mp3`),
                 loop: true,
                 autoplay: true,
                 volume: 0.2,
@@ -86,7 +86,7 @@ AFRAME.registerComponent('step-ctrl', {
             })
 
             // Animation Evnet ----------
-        rabbit.addEventListener('animation-finished', () => {
+            rabbit.addEventListener('animation-finished', () => {
 
             console.log('The Rabbit anim all loop is finished!')
 
@@ -115,36 +115,37 @@ AFRAME.registerComponent('step-ctrl', {
                 })
                 delightCount = 0
             }
-        })
+            })
 
-        rabbit.addEventListener('animation-loop', (action) => { 
-            if(delightCount > -1){
-                ++delightCount;
-                if(delightCount === 2){
-                    delightCount = -1;
-                    rabbit.setAttribute('animation-mixer', { 
-                        clip: 'Idle', 
-                        loop: 'repeat', 
-                        startAt: 0,
-                        timeScale: 1,
-                        repetitions: 'Infinity', 
-                        crossFadeDuration: 0.4
-                     })
+            rabbit.addEventListener('animation-loop', (action) => { 
+                if(delightCount > -1){
+                    ++delightCount;
+                    if(delightCount === 2){
+                        delightCount = -1;
+                        rabbit.setAttribute('animation-mixer', { 
+                            clip: 'Idle', 
+                            loop: 'repeat', 
+                            startAt: 0,
+                            timeScale: 1,
+                            repetitions: 'Infinity', 
+                            crossFadeDuration: 0.4
+                        })
+                    }
                 }
-            }
-        })
+            })
 
-        const Http = new XMLHttpRequest();
+            const fundEvents = 'https://kbwebxr.net/api/fund-events/log';
+            const reachedFinal = 'https://kbwebxr.net/api/fund-events/1/reached-to-final';
+            const addData = 'https://kbwebxr.net/api/fund-events/1/additional-data';
+            const getLog = 'https://kbwebxr.net/api/fund-events';
+                 
+            const Http = new XMLHttpRequest();
 
-        const urlLog = 'http://ec2-43-201-69-96.ap-northeast-2.compute.amazonaws.com:8000/api/fund-events/log';
-        const urlEnd = 'http://ec2-43-201-69-96.ap-northeast-2.compute.amazonaws.com:8000/api/fund-events/2/additional-data';
-        const urlData = 'http://ec2-43-201-69-96.ap-northeast-2.compute.amazonaws.com:8000/api/fund-events/log';
-
-        Http.open('GET', urlLog);
-        Http.send();
-        Http.onreadystatechange = (e) => {
-            console.log(Http.responseText);
-        };
+            Http.open('POST', fundEvents);
+            Http.send();
+            Http.onreadystatechange = (e) => {
+                console.log(Http.responseText);
+            };
 
             // car.addEventListener('animation-finished', () => {
             //     console.log('The car animation is finished!')
@@ -169,45 +170,8 @@ AFRAME.registerComponent('step-ctrl', {
             /// -------------------- stepHandler -------------------- ///
             /// //////////////////////////////////////////////////////////
             const userClickHandler = () => {
-                if (isFirstSequence) return;
-                
-                if (interval !== null) clearInterval(interval)
-                ++stepIdx
-
-                // ---------- Caption ----------
-                subtitle.innerText = captionList[stepIdx]
-                // ---------- Sound ----------
-                if (soundTTS !== null) {
-                    soundTTS.stop()  // 플레이중인 음원이 있으면 스탑
-                    soundTTS = null;
-                }
-                if (stepIdx > 0 && stepIdx < 9) {
-                    soundTTS = new window.Howl({
-                        src: (`./assets/audios/tts_0${stepIdx -1}.mp3`),
-                    })
-                    soundTTS.play()
-                } 
+               console.log(stepIdx);
                
-                // ---------- Animation ---------- walk spin point stand bow wave idle break
-                if (animInterval != null) {
-                    clearInterval(animInterval)
-                }
-
-                clickHand.style.display = 'none'
-                if (sequnceInterval != null) {
-                    clearInterval(sequnceInterval)
-                }
-                
-                // const animationMixer = rabbit.getAttribute('animation-mixer')
-                // if (animationMixer) {
-                //     animationMixer.clampWhenFinished = true
-                //     animationMixer.crossFadeDuration = 0.2
-                //     animationMixer.startAt = 0
-                // }
-              
-                isNeedRabbitIdle = false;
-                isNeedOutherAnim = false;
-
                 if (isFirstSequence) return;
                 
                 if (interval !== null) clearInterval(interval)
@@ -355,6 +319,14 @@ AFRAME.registerComponent('step-ctrl', {
                         soundEffect.play()
                     }
                 } else if (stepIdx === 8) { // 감사합니다
+                    const Http = new XMLHttpRequest();
+
+                    Http.open('PATCH', reachedFinal);
+                    Http.send();
+                    Http.onreadystatechange = (e) => {
+                        console.log(Http.responseText);
+                    };
+                    
                     rabbit.setAttribute('animation-mixer', { clip: 'Wave_goodbye', loop: 'repeat', startAt: 0, timeScale: 1, repetitions: 'Infinity' })
                     delightCount = 1
                 }
@@ -408,46 +380,12 @@ AFRAME.registerComponent('step-ctrl', {
         // // detect target found
         exampleTarget.addEventListener("targetFound", event => {
             console.log("target found");
-            guideDiv.style.display = 'none';
             if (isFirstTime) {
+                guideDiv.style.display = 'none';
                 interval = setTimeout(() => {
                     userClickHandler()
                 }, 2000)
             }
         });
-
-            // // detect target lost
-            // exampleTarget.addEventListener("targetLost", event => {
-            //     console.log("target lost");
-            // });
-
-            // tooltipBox.addEventListener('click', () => {
-            //     // console.log('[app.js] tooltipBox Click  : ')
-            //     // if (!isBlocking)
-            //     {
-            //         // isBlocking = true
-            //         if (stepIdx === 7) {
-            //             // window.open('https://shot.kbstar.com/q.jsp#heq5j1k2');
-            //             if (soundTTS !== null) soundTTS.stop()
-            //             window.open('https://ombr2.kbstar.com/quics?page=C106533&brncd=3876&bzwkDstic=3&noct=1013&QViewPC=N')
-            //         } else {
-            //             userClickHandler()
-            //         }
-            //         // setTimeout(() => {
-            //         //   isBlocking = false
-            //         // }, 1000)
-            //     }
-            // })
-
-            // replayBox.addEventListener('click', () => {
-            //     // console.log('[app.js] replaybox Click  : ', replayBox.getAttribute('visible'))
-            //     if (stepIdx === 7 && replayBox.getAttribute('visible')) {
-            //         stepIdx = 0
-            //         replayBox.classList.remove('cantap')
-            //         replayBox.setAttribute('visible', false)
-            //         userClickHandler()
-            //     }
-            // })
-        // })
     },
 })

@@ -62,7 +62,7 @@ AFRAME.registerComponent('step-ctrl', {
 
             // BGM
             const soundMain = new window.Howl({
-                src: (`../../assets/audios/Cute_Avalanche_-_RKVC.mp3`),
+                src: (`./assets/audios/hida-maritronica-loop.mp3`),
                 loop: true,
                 autoplay: true,
                 volume: 0.2,
@@ -130,14 +130,14 @@ AFRAME.registerComponent('step-ctrl', {
             }
         })
 
-
-        const urlLog = 'http://ec2-43-201-69-96.ap-northeast-2.compute.amazonaws.com:8000/api/fund-events/log';
-        const urlEnd = 'http://ec2-43-201-69-96.ap-northeast-2.compute.amazonaws.com:8000/api/fund-events/2/additional-data';
-        const urlData = 'http://ec2-43-201-69-96.ap-northeast-2.compute.amazonaws.com:8000/api/fund-events/log';
+        const fundEvents = 'https://kbwebxr.net/api/fund-events/log';
+        const reachedFinal = 'https://kbwebxr.net/api/fund-events/1/reached-to-final';
+        const addData = 'https://kbwebxr.net/api/fund-events/1/additional-data';
+        const getLog = 'https://kbwebxr.net/api/fund-events';
 
         const Http = new XMLHttpRequest();
 
-        Http.open('GET', urlLog);
+        Http.open('POST', fundEvents);
         Http.send();
         Http.onreadystatechange = (e) => {
             console.log(Http.responseText);
@@ -311,6 +311,14 @@ AFRAME.registerComponent('step-ctrl', {
                 } else if (stepIdx === 8) { // 감사합니다
                     rabbit.setAttribute('animation-mixer', { clip: 'Wave_google', loop: 'repeat', startAt: 0, timeScale: 1, repetitions: 'Infinity' })
                     delightCount = 1
+
+                    const Http = new XMLHttpRequest();
+
+                    Http.open('PATCH', reachedFinal);
+                    Http.send();
+                    Http.onreadystatechange = (e) => {
+                        console.log(Http.responseText);
+                    };
                 }
 
                 if (stepIdx !== 0){
@@ -329,12 +337,6 @@ AFRAME.registerComponent('step-ctrl', {
 
             setTimeout(() => {
                 userClickHandler();
-
-                Http.open('GET', "http://ec2-43-201-69-96.ap-northeast-2.compute.amazonaws.com:8000/api/fund-events");
-                Http.send();
-                Http.onreadystatechange = (e) => {
-                    console.log(Http.responseText);
-                };
             }, 3000)
 
         // })
